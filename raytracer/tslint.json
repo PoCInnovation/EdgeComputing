@@ -1,0 +1,7 @@
+{
+  "defaultSeverity": "error",
+  "allowSyntheticDefaultImports": true,
+  "extends": [
+    "tslint-config-airbnb"
+  ]
+}

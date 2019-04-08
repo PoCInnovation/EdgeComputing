@@ -1,0 +1,28 @@
+{
+  "name": "raytracer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "build": "npm run tslint && tsc",
+    "tslint": "tslint -c tslint.json -p tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/victorneuret/EdgeComputing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/victorneuret/EdgeComputing/issues"
+  },
+  "homepage": "https://github.com/victorneuret/EdgeComputing#readme",
+  "dependencies": {
+    "typescript": "^3.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^11.13.1",
+    "tslint": "^5.15.0",
+    "tslint-config-airbnb": "^5.11.1"
+  }
+}
