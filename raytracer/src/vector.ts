@@ -1,33 +1,77 @@
 export default class Vector {
-  constructor(public x: number, public y: number, public z: number) {}
+  public x: number;
+  public y: number;
+  public z: number;
 
-  static dot(first: Vector, second: Vector): number {
-    return (first.x * second.x + first.y * second.y + first.z * second.z);
+  constructor(x: number, y: number, z: number) {
+    this.x = x;
+    this.y = y;
+    this.z = z;
   }
 
-  static add(first: Vector, second: Vector): Vector {
-    return new Vector(first.x + second.x, first.y + second.y, first.z + second.z);
+  add(value: Vector | number) {
+    if (typeof(value) == 'number') {
+      this.x += value;
+      this.y += value;
+      this.z += value;
+    } else {
+      this.x += value.x;
+      this.y += value.y;
+      this.z += value.z;
+    }
   }
 
-  static sub(first: Vector, second: Vector): Vector {
-    return new Vector(first.x - second.x, first.y - second.y, first.z - second.z);
+  sub(value: Vector | number) {
+    if (typeof(value) == 'number') {
+      this.x -= value;
+      this.y -= value;
+      this.z -= value;
+    } else {
+      this.x -= value.x;
+      this.y -= value.y;
+      this.z -= value.z;
+    }
   }
 
-  static scale(vector: Vector, ratio: number): Vector {
-    return new Vector(vector.x * ratio, vector.y * ratio, vector.z * ratio);
+  mul(value: Vector | number) {
+    if (typeof(value) == 'number') {
+      this.x *= value;
+      this.y *= value;
+      this.z *= value;
+    } else {
+      this.x *= value.x;
+      this.y *= value.y;
+      this.z *= value.z;
+    }
+  }
+  
+  div(value: Vector | number) {
+    if (typeof(value) == 'number') {
+      this.x /= value;
+      this.y /= value;
+      this.z /= value;
+    } else {
+      this.x /= value.x;
+      this.y /= value.y;
+      this.z /= value.z;
+    }
   }
 
-  static unit(vector: Vector) {
-    return Vector.scale(vector, 1 / Vector.magnitude(vector));
+  scale(ratio: number) {
+    this.x *= ratio;
+    this.y *= ratio;
+    this.z *= ratio;
   }
 
-  static crossProduct(first: Vector, second: Vector): Vector {
-    return new Vector(first.y * second.z - first.z * second.y,
-                      first.z * second.x - first.x * second.z,
-                      first.x * second.y - first.y * second.x);
+  unit() {
+    this.scale(1 / this.magnitude());
   }
 
-  static magnitude(vector: Vector): number {
-    return Math.sqrt(Vector.dot(vector, vector));
+  dot(): number {
+    return (this.x * this.x + this.y * this.y + this.z * this.z);
+  }
+
+  magnitude(): number {
+    return Math.sqrt(this.dot());
   }
 }

@@ -1,5 +1,13 @@
 import Vector from './vector';
 
 export default class Camera {
-  constructor(public position: Vector, public direction: Vector, public fieldOfView: number) {}
+  public readonly position: Vector;
+  public readonly direction: Vector;
+  public readonly fieldOfView: number;
+
+  constructor(position: Vector, direction: Vector, fieldOfView: number) {
+    this.position = position;
+    this.direction = direction;
+    this.fieldOfView = fieldOfView;
+  }
 }

@@ -1,17 +1,20 @@
 {
   "compilerOptions": {
-    "module": "es2015",
+    "module": "commonjs",
     "target": "es6",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "moduleResolution": "node",
     "noImplicitAny": true,
     "strict": true,
-    "moduleResolution": "node",
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
       "*": ["./node_modules/*"]
     },
     "lib": [
-      "es2016",
+      "es6",
       "dom"
     ]
   },
