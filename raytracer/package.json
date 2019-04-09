@@ -5,7 +5,8 @@
   "main": "",
   "scripts": {
     "build": "npm run tslint && tsc",
-    "tslint": "tslint -c tslint.json -p tsconfig.json"
+    "tslint": "tslint -c tslint.json -p tsconfig.json",
+    "watch": "tsc -w"
   },
   "repository": {
     "type": "git",

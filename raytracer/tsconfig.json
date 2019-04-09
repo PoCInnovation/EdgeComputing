@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
     "target": "es6",
     "noImplicitAny": true,
     "strict": true,
@@ -9,7 +9,11 @@
     "baseUrl": "./src",
     "paths": {
       "*": ["./node_modules/*"]
-    }
+    },
+    "lib": [
+      "es2016",
+      "dom"
+    ]
   },
   "include": [
     "./src/**/*"
