@@ -17,6 +17,10 @@ export default class Vector {
     return new Vector(vector.x * ratio, vector.y * ratio, vector.z * ratio);
   }
 
+  static unit(vector: Vector) {
+    return Vector.scale(vector, 1 / Vector.magnitude(vector));
+  }
+
   static crossProduct(first: Vector, second: Vector): Vector {
     return new Vector(first.y * second.z - first.z * second.y,
                       first.z * second.x - first.x * second.z,
