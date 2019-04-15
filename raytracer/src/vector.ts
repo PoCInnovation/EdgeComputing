@@ -9,7 +9,7 @@ export default class Vector {
     this.z = z;
   }
 
-  add(value: Vector | number) {
+  add(value: Vector | number) : Vector {
     if (typeof(value) == 'number') {
       this.x += value;
       this.y += value;
@@ -19,9 +19,10 @@ export default class Vector {
       this.y += value.y;
       this.z += value.z;
     }
+    return this;
   }
 
-  sub(value: Vector | number) {
+  sub(value: Vector | number) : Vector {
     if (typeof(value) == 'number') {
       this.x -= value;
       this.y -= value;
@@ -31,9 +32,10 @@ export default class Vector {
       this.y -= value.y;
       this.z -= value.z;
     }
+    return this;
   }
 
-  mul(value: Vector | number) {
+  mul(value: Vector | number) : Vector {
     if (typeof(value) == 'number') {
       this.x *= value;
       this.y *= value;
@@ -43,9 +45,10 @@ export default class Vector {
       this.y *= value.y;
       this.z *= value.z;
     }
+    return this;
   }
   
-  div(value: Vector | number) {
+  div(value: Vector | number) : Vector {
     if (typeof(value) == 'number') {
       this.x /= value;
       this.y /= value;
@@ -55,6 +58,7 @@ export default class Vector {
       this.y /= value.y;
       this.z /= value.z;
     }
+    return this;
   }
 
   scale(ratio: number) {

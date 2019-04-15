@@ -6,7 +6,7 @@ function main() {
   let canvas = document.createElement('canvas');
   
   canvas.width = 200;
-  canvas.height = 200;
+  canvas.height = 100;
   document.body.appendChild(canvas);
   const scene = new Scene(canvas.width, canvas.height);
   const context = canvas.getContext('2d');
