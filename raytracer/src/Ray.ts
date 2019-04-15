@@ -1,4 +1,4 @@
-import Pixel from './pixel';
+import Pixel from './Pixel';
 
 export default class Ray {
   public readonly origin: Pixel;

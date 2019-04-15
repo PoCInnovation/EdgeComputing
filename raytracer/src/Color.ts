@@ -10,7 +10,7 @@ export default class Color {
   }
 
   add(value: Color | number) : Color {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.r += value;
       this.g += value;
       this.b += value;
@@ -23,7 +23,7 @@ export default class Color {
   }
 
   sub(value: Color | number) : Color {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.r += value;
       this.g += value;
       this.b += value;
@@ -36,7 +36,7 @@ export default class Color {
   }
 
   mul(value: Color | number) : Color {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.r += value;
       this.g += value;
       this.b += value;
@@ -49,7 +49,7 @@ export default class Color {
   }
 
   div(value: Color | number) : Color {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.r += value;
       this.g += value;
       this.b += value;
@@ -66,7 +66,7 @@ export default class Color {
   }
 
   dot(): number {
-    return (this.r * this.r + this.g * this.g + this.b * this.b);
+    return (Math.pow(this.r, 2) + Math.pow(this.g, 2) + Math.pow(this.b, 2));
   }
 
   magnitude(): number {

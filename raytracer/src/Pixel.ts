@@ -1,6 +1,5 @@
-import Vector from './vector';
-import Color from './color';
-import { type } from 'os';
+import Vector from './Vector';
+import Color from './Color';
 
 export default class Pixel {
   public readonly position: Vector;

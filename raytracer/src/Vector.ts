@@ -1,9 +1,3 @@
-interface IVector {
-  x: number;
-  y: number;
-  z: number;
-}
-
 export default class Vector {
   public x: number;
   public y: number;

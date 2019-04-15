@@ -1,4 +1,4 @@
-import Scene from './scene';
+import Scene from './Scene';
 
 function main() {
   const canvas = document.createElement('canvas');
@@ -8,8 +8,8 @@ function main() {
     return;
   }
 
-  canvas.width = 200;
-  canvas.height = 100;
+  canvas.width = 1000;
+  canvas.height = 500;
   document.body.appendChild(canvas);
 
   const scene = new Scene(canvas.width, canvas.height);

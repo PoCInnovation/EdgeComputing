@@ -1,4 +1,4 @@
-import Vector from './vector';
+import Vector from './Vector';
 
 export default class Camera {
   public readonly position: Vector;
