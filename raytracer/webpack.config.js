@@ -1,9 +1,10 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
   resolve: {
-    extensions: ['.ts',]
+    extensions: ['.ts', '.js']
   },
   output: {
     path: path.join(__dirname, '/dist'),
@@ -16,5 +17,11 @@ module.exports = {
         loader: 'ts-loader'
       }
     ]
+  },
+  plugins: [new HtmlWebpackPlugin()],
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 9000
   }
 }
