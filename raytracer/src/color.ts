@@ -47,7 +47,7 @@ export default class Color {
     }
     return this;
   }
-  
+
   div(value: Color | number) : Color {
     if (typeof(value) == 'number') {
       this.r += value;

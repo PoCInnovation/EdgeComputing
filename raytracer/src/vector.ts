@@ -1,3 +1,9 @@
+interface IVector {
+  x: number;
+  y: number;
+  z: number;
+}
+
 export default class Vector {
   public x: number;
   public y: number;
@@ -10,7 +16,7 @@ export default class Vector {
   }
 
   add(value: Vector | number) : Vector {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.x += value;
       this.y += value;
       this.z += value;
@@ -23,7 +29,7 @@ export default class Vector {
   }
 
   sub(value: Vector | number) : Vector {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.x -= value;
       this.y -= value;
       this.z -= value;
@@ -36,7 +42,7 @@ export default class Vector {
   }
 
   mul(value: Vector | number) : Vector {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.x *= value;
       this.y *= value;
       this.z *= value;
@@ -47,9 +53,9 @@ export default class Vector {
     }
     return this;
   }
-  
+
   div(value: Vector | number) : Vector {
-    if (typeof(value) == 'number') {
+    if (typeof(value) === 'number') {
       this.x /= value;
       this.y /= value;
       this.z /= value;
@@ -71,11 +77,15 @@ export default class Vector {
     this.scale(1 / this.magnitude());
   }
 
-  dot(): number {
-    return (this.x * this.x + this.y * this.y + this.z * this.z);
+  dot(vector: Vector = this): number {
+    return (this.x * vector.x + this.y * vector.y + this.z * vector.z);
   }
 
   magnitude(): number {
     return Math.sqrt(this.dot());
+  }
+
+  static unitVector(vector: Vector) : Vector {
+    return new Vector(vector.x, vector.y, vector.z).div(vector.magnitude());
   }
 }
