@@ -1,8 +1,9 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TSLintPlugin = require('tslint-webpack-plugin');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/',
   resolve: {
     extensions: ['.ts', '.js']
   },
@@ -18,7 +19,14 @@ module.exports = {
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [
+    new TSLintPlugin({
+      files: ['./src/**/*.ts']
+    }),
+    new HtmlWebpackPlugin({
+      title: 'RayTracer'
+    })
+  ],
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,

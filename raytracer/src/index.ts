@@ -1,4 +1,5 @@
 import Scene from './Scene';
+import Config from './config/scene.json';
 
 function main() {
   const canvas = document.createElement('canvas');
@@ -8,8 +9,9 @@ function main() {
     return;
   }
 
-  canvas.width = 1000;
-  canvas.height = 500;
+  document.title = Config.name;
+  canvas.width = Config.width;
+  canvas.height = Config.height;
   document.body.appendChild(canvas);
 
   const scene = new Scene(canvas.width, canvas.height);
