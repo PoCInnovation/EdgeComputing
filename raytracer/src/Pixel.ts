@@ -5,9 +5,13 @@ export default class Pixel {
   public readonly position: Vector;
   public readonly color: Color;
 
-  constructor(position: Vector, color: Color) {
+  constructor(position: Vector, color?: Color) {
     this.position = position;
-    this.color = color;
+    if (color == null) {
+      this.color = new Color(position.x, position.y, position.z);
+    } else {
+      this.color = color;
+    }
   }
 
   add(value: Pixel | Vector | number) : Pixel {

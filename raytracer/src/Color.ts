@@ -61,10 +61,6 @@ export default class Color {
     return this;
   }
 
-  public toString(): string {
-    return `rgb(${this.r}, ${this.g}, ${this.b})`;
-  }
-
   dot(): number {
     return (Math.pow(this.r, 2) + Math.pow(this.g, 2) + Math.pow(this.b, 2));
   }

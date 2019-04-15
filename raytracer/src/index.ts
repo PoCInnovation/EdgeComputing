@@ -1,7 +1,7 @@
 import Scene from './Scene';
 import Config from './config/scene.json';
 
-function main() {
+async function main() {
   const canvas = document.createElement('canvas');
 
   if (canvas == null) {
