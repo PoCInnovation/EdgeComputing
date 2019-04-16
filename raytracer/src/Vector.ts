@@ -61,16 +61,6 @@ export default class Vector {
     return this;
   }
 
-  private scale(ratio: number) {
-    this.x *= ratio;
-    this.y *= ratio;
-    this.z *= ratio;
-  }
-
-  public unit() {
-    this.scale(1 / this.magnitude());
-  }
-
   public dot(vector: Vector = this): number {
     return (this.x * vector.x + this.y * vector.y + this.z * vector.z);
   }

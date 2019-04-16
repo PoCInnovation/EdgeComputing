@@ -1,6 +1,6 @@
-import Scene from './Scene';
 import Config from './config/scene.json';
-import { Shape, ShapeHit } from './Shapes/Shape';
+import Scene from './Scene';
+import { Shape } from './Shapes/Shape';
 import Sphere from './Shapes/Sphere';
 import Vector from './Vector';
 import Color from './Color';

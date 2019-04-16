@@ -1,7 +1,7 @@
 import Vector from './Vector';
 import Ray from './Ray';
 import { Shape, ShapeHit } from './Shapes/Shape';
-import Sphere from './Shapes/Sphere';
+import Color from './Color';
 
 export default class Scene {
   public readonly width: number;
@@ -12,7 +12,7 @@ export default class Scene {
     this.height = height;
   }
 
-  private getColor(ray: Ray, shapes: Shape[]) : Vector {
+  private getColor(ray: Ray, shapes: Shape[]): Color {
     let hit: ShapeHit = { visible: false };
     let max = Infinity;
 
@@ -23,11 +23,11 @@ export default class Scene {
         max = (newHit.t !== undefined) ? newHit.t : max;
       }
     });
-    if (hit.visible && hit.normal !== undefined) {
-      return new Vector(hit.normal.x + 1, hit.normal.y + 1, hit.normal.z + 1).mul(0.5);
+    if (hit.visible && hit.normal !== undefined && hit.p !== undefined) {
+      return new Color(hit.normal.x + 1, hit.normal.y + 1, hit.normal.z + 1).mul(0.5);
     }
-    const t = (Vector.unitVector(ray.direction.position).y + 1) * 0.5;
-    return new Vector(1, 1, 1).mul(1 - t).add(new Vector(0.5, 0.7, 1).mul(t));
+    const t = (Vector.unitVector(ray.direction).y + 1) * 0.5;
+    return new Color(1, 1, 1).mul(1 - t).add(new Color(0.5, 0.7, 1).mul(t));
   }
 
   public render(context: CanvasRenderingContext2D, shapes: Shape[]) {
@@ -42,9 +42,9 @@ export default class Scene {
         const col = this.getColor(ray, shapes);
         const pos = (x << 2) + ((this.height - y) * imageData.width << 2);
 
-        imageData.data[pos] = 0xff * col.x;
-        imageData.data[pos + 1] = 0xff * col.y;
-        imageData.data[pos + 2] = 0xff * col.z;
+        imageData.data[pos] = 0xff * col.r;
+        imageData.data[pos + 1] = 0xff * col.g;
+        imageData.data[pos + 2] = 0xff * col.b;
         imageData.data[pos + 3] = 0xff;
       }
     }
