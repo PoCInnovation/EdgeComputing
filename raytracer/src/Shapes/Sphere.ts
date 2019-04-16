@@ -12,7 +12,7 @@ export default class Sphere extends Shape {
   }
 
   hit(ray: Ray, min: number, max: number): ShapeHit {
-    const oc = new Vector(ray.origin.x, ray.origin.y, ray.origin.z).sub(this.position);
+    const oc = ray.origin.clone().sub(this.position);
     const a = ray.direction.dot();
     const b = oc.dot(ray.direction);
     const c = oc.dot() - Math.pow(this.radius, 2);

@@ -69,7 +69,11 @@ export default class Vector {
     return Math.sqrt(this.dot());
   }
 
+  public clone(): Vector {
+    return new Vector(this.x, this.y, this.z);
+  }
+
   public static unitVector(vector: Vector): Vector {
-    return new Vector(vector.x, vector.y, vector.z).div(vector.magnitude());
+    return vector.clone().div(vector.magnitude());
   }
 }

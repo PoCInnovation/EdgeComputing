@@ -10,6 +10,6 @@ export default class Ray {
   }
 
   public pointAtParameter(t: number): Vector {
-    return new Vector(this.direction.x, this.direction.y, this.direction.z).mul(t).add(this.origin);
+    return this.direction.clone().mul(t).add(this.origin);
   }
 }

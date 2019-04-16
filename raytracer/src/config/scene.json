@@ -1,5 +1,6 @@
 {
   "name": "RayTracer",
-  "width": 1000,
-  "height": 500
+  "width": 400,
+  "height": 200,
+  "depth": 200
 }
