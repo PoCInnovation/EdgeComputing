@@ -1,5 +1,7 @@
 import Vector from './Vector';
 import Ray from './Ray';
+import { Shape, ShapeHit } from './Shapes/Shape';
+import Sphere from './Shapes/Sphere';
 
 export default class Scene {
   public readonly width: number;
@@ -10,45 +12,34 @@ export default class Scene {
     this.height = height;
   }
 
-  public hitSphere(center: Vector, radius: number, r: Ray): number {
-    const { x, y, z } = r.origin.position;
-    const oc = new Vector(x, y, z).sub(center);
-    const a = r.direction.position.dot();
-    const b = oc.dot(r.direction.position) << 1;
-    const c = oc.dot() - Math.pow(radius, 2);
-    const discriminant = Math.pow(b, 2) - 4 * a * c;
+  private getColor(ray: Ray, shapes: Shape[]) : Vector {
+    let hit: ShapeHit = { visible: false };
+    let max = Infinity;
 
-    if (discriminant < 0) {
-      return -1;
+    shapes.forEach((shape) => {
+      const newHit = shape.hit(ray, 0, max);
+      if (newHit.visible) {
+        hit = newHit;
+        max = (newHit.t !== undefined) ? newHit.t : max;
+      }
+    });
+    if (hit.visible && hit.normal !== undefined) {
+      return new Vector(hit.normal.x + 1, hit.normal.y + 1, hit.normal.z + 1).mul(0.5);
     }
-    return (-b - Math.sqrt(discriminant)) / (a << 1);
-  }
-
-  public getColor(ray: Ray) : Vector {
-    const hitSphere = this.hitSphere(new Vector(0, 0, -1), 0.5, ray);
-
-    if (hitSphere > 0) {
-      const unit = Vector.unitVector(ray.pointAtParameter(hitSphere).position
-        .sub(new Vector(0, 0, -1)));
-      return new Vector(unit.x + 1, unit.y + 1, unit.z + 1).mul(0.5);
-    }
-
-    const t = 0.5 * (Vector.unitVector(ray.direction.position).y + 1);
-
+    const t = (Vector.unitVector(ray.direction.position).y + 1) * 0.5;
     return new Vector(1, 1, 1).mul(1 - t).add(new Vector(0.5, 0.7, 1).mul(t));
   }
 
-  public render(context: CanvasRenderingContext2D) {
+  public render(context: CanvasRenderingContext2D, shapes: Shape[]) {
     const imageData = context.createImageData(this.width, this.height);
     const origin = new Vector(0, 0, 0);
 
     for (let y = 0; y < this.height; y += 1) {
       for (let x = 0; x < this.width; x += 1) {
-        const lowerLeftCorner = new Vector(-2, -1, -1);
-        const ray = new Ray(origin, lowerLeftCorner
+        const ray = new Ray(origin, new Vector(-2, -1, -1)
           .add(new Vector(4, 0, 0).mul(x / this.width))
           .add(new Vector(0, 2, 0).mul(y / this.height)));
-        const col = this.getColor(ray);
+        const col = this.getColor(ray, shapes);
         const pos = (x << 2) + ((this.height - y) * imageData.width << 2);
 
         imageData.data[pos] = 0xff * col.x;

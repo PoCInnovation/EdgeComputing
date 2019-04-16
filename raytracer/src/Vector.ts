@@ -9,7 +9,7 @@ export default class Vector {
     this.z = z;
   }
 
-  add(value: Vector | number) : Vector {
+  public add(value: Vector | number) : Vector {
     if (typeof(value) === 'number') {
       this.x += value;
       this.y += value;
@@ -22,7 +22,7 @@ export default class Vector {
     return this;
   }
 
-  sub(value: Vector | number) : Vector {
+  public sub(value: Vector | number) : Vector {
     if (typeof(value) === 'number') {
       this.x -= value;
       this.y -= value;
@@ -35,7 +35,7 @@ export default class Vector {
     return this;
   }
 
-  mul(value: Vector | number) : Vector {
+  public mul(value: Vector | number) : Vector {
     if (typeof(value) === 'number') {
       this.x *= value;
       this.y *= value;
@@ -48,7 +48,7 @@ export default class Vector {
     return this;
   }
 
-  div(value: Vector | number) : Vector {
+  public div(value: Vector | number) : Vector {
     if (typeof(value) === 'number') {
       this.x /= value;
       this.y /= value;
@@ -61,25 +61,25 @@ export default class Vector {
     return this;
   }
 
-  scale(ratio: number) {
+  private scale(ratio: number) {
     this.x *= ratio;
     this.y *= ratio;
     this.z *= ratio;
   }
 
-  unit() {
+  public unit() {
     this.scale(1 / this.magnitude());
   }
 
-  dot(vector: Vector = this): number {
+  public dot(vector: Vector = this): number {
     return (this.x * vector.x + this.y * vector.y + this.z * vector.z);
   }
 
-  magnitude(): number {
+  public magnitude(): number {
     return Math.sqrt(this.dot());
   }
 
-  static unitVector(vector: Vector) : Vector {
+  public static unitVector(vector: Vector): Vector {
     return new Vector(vector.x, vector.y, vector.z).div(vector.magnitude());
   }
 }

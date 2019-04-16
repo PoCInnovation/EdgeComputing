@@ -1,8 +1,16 @@
 import Scene from './Scene';
 import Config from './config/scene.json';
+import { Shape, ShapeHit } from './Shapes/Shape';
+import Sphere from './Shapes/Sphere';
+import Vector from './Vector';
+import Color from './Color';
 
 async function main() {
   const canvas = document.createElement('canvas');
+  const shapes: Shape[] = [
+    new Sphere(new Vector(0, 0, -1), Color.WHITE, 0.5),
+    new Sphere(new Vector(0, -100.5, -1), Color.WHITE, 100),
+  ];
 
   if (canvas == null) {
     console.error('Failed to create canvas.');
@@ -22,7 +30,7 @@ async function main() {
     return;
   }
 
-  scene.render(context);
+  scene.render(context, shapes);
 }
 
 main();

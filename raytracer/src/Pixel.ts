@@ -30,11 +30,11 @@ export default class Pixel {
 
   sub(value: Pixel | Vector | number) : Pixel {
     if (typeof(value) === 'number') {
-      this.position.add(value);
-      this.color.add(value);
+      this.position.sub(value);
+      this.color.sub(value);
     } else if (value instanceof Pixel) {
-      this.position.add(value.position);
-      this.color.add(value.color);
+      this.position.sub(value.position);
+      this.color.sub(value.color);
     } else {
       this.position.sub(value);
       this.color.sub(new Color(value.x, value.y, value.z));
@@ -44,11 +44,11 @@ export default class Pixel {
 
   mul(value: Pixel | Vector | number) : Pixel {
     if (typeof(value) === 'number') {
-      this.position.add(value);
-      this.color.add(value);
+      this.position.mul(value);
+      this.color.mul(value);
     } else if (value instanceof Pixel) {
-      this.position.add(value.position);
-      this.color.add(value.color);
+      this.position.mul(value.position);
+      this.color.mul(value.color);
     } else {
       this.position.mul(value);
       this.color.mul(new Color(value.x, value.y, value.z));
@@ -58,11 +58,11 @@ export default class Pixel {
 
   div(value: Pixel | Vector | number) : Pixel {
     if (typeof(value) === 'number') {
-      this.position.add(value);
-      this.color.add(value);
+      this.position.div(value);
+      this.color.div(value);
     } else if (value instanceof Pixel) {
-      this.position.add(value.position);
-      this.color.add(value.color);
+      this.position.div(value.position);
+      this.color.div(value.color);
     } else {
       this.position.div(value);
       this.color.div(new Color(value.x, value.y, value.z));
