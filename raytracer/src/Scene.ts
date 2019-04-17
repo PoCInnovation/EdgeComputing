@@ -37,7 +37,6 @@ export default class Scene {
     if (hit.visible && hit.normal !== undefined && hit.p !== undefined) {
       const target = hit.p.clone().add(hit.normal).add(this.randomInUnitSphere());
       return this.getColor(new Ray(hit.p, target.sub(hit.p)), shapes).mul(0.5);
-      // return new Color(hit.normal.x + 1, hit.normal.y + 1, hit.normal.z + 1).mul(0.5);
     }
     const t = (Vector.unitVector(ray.direction).y + 1) * 0.5;
     return new Color(1, 1, 1).mul(1 - t).add(new Color(0.5, 0.7, 1).mul(t));
@@ -50,15 +49,14 @@ export default class Scene {
       for (let x = 0; x < this.width; x += 1) {
         const col = new Color(0, 0, 0);
         for (let z = 0; z < this.depth; z += 1) {
-          col.add(this.getColor(camera.getRay(
-            (x + Math.random()) / this.width,
-            (y + Math.random()) / this.height,
-          ), shapes));
+          col.add(this.getColor(
+            camera.getRay(
+              (x + Math.random()) / this.width,
+              (y + Math.random()) / this.height),
+            shapes));
         }
         col.div(this.depth);
-        // col.r = Math.sqrt(col.r);
-        // col.g = Math.sqrt(col.g);
-        // col.b = Math.sqrt(col.b);
+        col.sqrt();
 
         const pos = (x << 2) + ((this.height - y) * imageData.width << 2);
         imageData.data[pos] = 0xff * col.r;

@@ -14,7 +14,7 @@ export default class Camera {
     this.origin = origin;
   }
 
-  getRay(u: number, v: number): Ray {
+  public getRay(u: number, v: number): Ray {
     return new Ray(this.origin, this.lowerLeftCorner.clone()
       .add(this.horizontal.clone().mul(u))
       .add(this.vertical.clone().mul(v))

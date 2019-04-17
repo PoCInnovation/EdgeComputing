@@ -11,7 +11,7 @@ export default class Sphere extends Shape {
     this.radius = radius;
   }
 
-  hit(ray: Ray, min: number, max: number): ShapeHit {
+  public hit(ray: Ray, min: number, max: number): ShapeHit {
     const oc = ray.origin.clone().sub(this.position);
     const a = ray.direction.dot();
     const b = oc.dot(ray.direction);
@@ -25,7 +25,7 @@ export default class Sphere extends Shape {
       if (solution > min && solution < max) {
         obj.t = solution;
         obj.p = ray.pointAtParameter(solution);
-        obj.normal = obj.p.sub(this.position).div(this.radius);
+        obj.normal = obj.p.clone().sub(this.position).div(this.radius);
         obj.visible = true;
         return obj;
       }
@@ -33,7 +33,7 @@ export default class Sphere extends Shape {
       if (solution > min && solution < max) {
         obj.t = solution;
         obj.p = ray.pointAtParameter(solution);
-        obj.normal = obj.p.sub(this.position).div(this.radius);
+        obj.normal = obj.p.clone().sub(this.position).div(this.radius);
         obj.visible = true;
         return obj;
       }
