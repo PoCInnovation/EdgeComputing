@@ -9,7 +9,7 @@ export default class Vector {
     this.z = z;
   }
 
-  public add(value: Vector | number) : Vector {
+  public add(value: Vector | number): Vector {
     if (typeof(value) === 'number') {
       this.x += value;
       this.y += value;
@@ -22,7 +22,7 @@ export default class Vector {
     return this;
   }
 
-  public sub(value: Vector | number) : Vector {
+  public sub(value: Vector | number): Vector {
     if (typeof(value) === 'number') {
       this.x -= value;
       this.y -= value;
@@ -35,7 +35,7 @@ export default class Vector {
     return this;
   }
 
-  public mul(value: Vector | number) : Vector {
+  public mul(value: Vector | number): Vector {
     if (typeof(value) === 'number') {
       this.x *= value;
       this.y *= value;
@@ -48,7 +48,7 @@ export default class Vector {
     return this;
   }
 
-  public div(value: Vector | number) : Vector {
+  public div(value: Vector | number): Vector {
     if (typeof(value) === 'number') {
       this.x /= value;
       this.y /= value;
@@ -73,7 +73,19 @@ export default class Vector {
     return new Vector(this.x, this.y, this.z);
   }
 
-  public static unitVector(vector: Vector): Vector {
-    return vector.clone().div(vector.magnitude());
+  public unit(): Vector {
+    return this.clone().div(this.magnitude());
+  }
+
+  public reflect(vector: Vector = this): Vector {
+    return this.clone().sub(vector.clone().mul(this.dot(vector) * 2));
+  }
+
+  public static randomInUnitSphere(): Vector {
+    let p: Vector;
+    do {
+      p = new Vector(Math.random(), Math.random(), Math.random()).mul(2).sub(1);
+    } while (p.dot() >= 1);
+    return p;
   }
 }

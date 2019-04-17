@@ -1,8 +1,9 @@
-import Vector from './Vector';
-import Ray from './Ray';
 import { Shape, ShapeHit } from './Shapes/Shape';
-import Color from './Color';
+import { Material } from './Materials/Material';
+import Vector from './Vector';
 import Camera from './Camera';
+import Color from './Color';
+import Ray from './Ray';
 
 export default class Scene {
   public readonly width: number;
@@ -15,30 +16,28 @@ export default class Scene {
     this.depth = depth;
   }
 
-  private randomInUnitSphere(): Vector {
-    let p: Vector;
-    do {
-      p = new Vector(Math.random(), Math.random(), Math.random()).mul(2).sub(1);
-    } while (p.dot() >= 1);
-    return p;
-  }
-
-  private getColor(ray: Ray, shapes: Shape[]): Color {
-    let hit: ShapeHit = { visible: false };
+  private getColor(ray: Ray, shapes: Shape[], depth: number): Color {
+    let hit: ShapeHit | undefined;
     let max = Infinity;
+    let material: Material | undefined;
 
     shapes.forEach((shape) => {
-      const newHit = shape.hit(ray, 0, max);
-      if (newHit.visible) {
+      const newHit = shape.hit(ray, 0.001, max);
+      if (newHit !== undefined) {
         hit = newHit;
+        material = shape.material;
         max = (newHit.t !== undefined) ? newHit.t : max;
       }
     });
-    if (hit.visible && hit.normal !== undefined && hit.p !== undefined) {
-      const target = hit.p.clone().add(hit.normal).add(this.randomInUnitSphere());
-      return this.getColor(new Ray(hit.p, target.sub(hit.p)), shapes).mul(0.5);
+    if (hit !== undefined && material !== undefined) {
+      const res = material.scatter(ray, hit);
+
+      if (depth < 50 && res !== undefined) {
+        return res.attenuation.mul(this.getColor(res.scattered, shapes, depth + 1));
+      }
+      return new Color(0, 0, 0);
     }
-    const t = (Vector.unitVector(ray.direction).y + 1) * 0.5;
+    const t = (ray.direction.unit().y + 1) * 0.5;
     return new Color(1, 1, 1).mul(1 - t).add(new Color(0.5, 0.7, 1).mul(t));
   }
 
@@ -53,10 +52,9 @@ export default class Scene {
             camera.getRay(
               (x + Math.random()) / this.width,
               (y + Math.random()) / this.height),
-            shapes));
+            shapes, 0));
         }
-        col.div(this.depth);
-        col.sqrt();
+        col.div(this.depth).sqrt();
 
         const pos = (x << 2) + ((this.height - y) * imageData.width << 2);
         imageData.data[pos] = 0xff * col.r;

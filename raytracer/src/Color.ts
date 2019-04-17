@@ -12,7 +12,7 @@ export default class Color {
     this.b = b;
   }
 
-  public add(value: Color | number) : Color {
+  public add(value: Color | number): Color {
     if (typeof(value) === 'number') {
       this.r += value;
       this.g += value;
@@ -25,7 +25,7 @@ export default class Color {
     return this;
   }
 
-  public sub(value: Color | number) : Color {
+  public sub(value: Color | number): Color {
     if (typeof(value) === 'number') {
       this.r -= value;
       this.g -= value;
@@ -38,7 +38,7 @@ export default class Color {
     return this;
   }
 
-  public mul(value: Color | number) : Color {
+  public mul(value: Color | number): Color {
     if (typeof(value) === 'number') {
       this.r *= value;
       this.g *= value;
@@ -51,7 +51,7 @@ export default class Color {
     return this;
   }
 
-  public div(value: Color | number) : Color {
+  public div(value: Color | number): Color {
     if (typeof(value) === 'number') {
       this.r /= value;
       this.g /= value;
@@ -71,11 +71,15 @@ export default class Color {
     return this;
   }
 
-  public dot(): number {
-    return (Math.pow(this.r, 2) + Math.pow(this.g, 2) + Math.pow(this.b, 2));
+  public dot(color: Color = this): number {
+    return (this.r * color.r + this.g * color.g + this.b * color.b);
   }
 
   public magnitude(): number {
     return Math.sqrt(this.dot());
+  }
+
+  public clone(): Color {
+    return new Color(this.r, this.g, this.b);
   }
 }

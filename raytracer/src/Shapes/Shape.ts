@@ -1,31 +1,23 @@
-import Color from '../Color';
+import { Material } from '../Materials/Material';
 import Vector from '../Vector';
 import Ray from '../Ray';
 
 export interface ShapeHit {
-  t?: number;
-  p?: Vector;
-  normal?: Vector;
-  visible: boolean;
+  t: number;
+  p: Vector;
+  normal: Vector;
 }
 
-interface IShape {
-  position: Vector;
-  color: Color;
-
-  hit(ray: Ray, min: number, max: number): ShapeHit;
-}
-
-export class Shape implements IShape {
+export class Shape {
   public position: Vector;
-  public color: Color;
+  public material: Material;
 
-  constructor(position: Vector, color: Color) {
+  constructor(position: Vector, material: Material) {
     this.position = position;
-    this.color = color;
+    this.material = material;
   }
 
-  hit(ray: Ray, min: number, max: number): ShapeHit {
-    return { visible: false };
+  public hit(ray: Ray, min: number, max: number): ShapeHit | undefined {
+    return undefined;
   }
 }
