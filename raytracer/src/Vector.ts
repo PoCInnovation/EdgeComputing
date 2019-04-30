@@ -101,6 +101,14 @@ export default class Vector {
     );
   }
 
+  public static randomInUnitDisk(): Vector {
+    let p: Vector;
+    do {
+      p = new Vector(Math.random(), Math.random(), 0).mul(2).sub(new Vector(1, 1, 0));
+    } while (p.dot() >= 1);
+    return p;
+  }
+
   public static randomInUnitSphere(): Vector {
     let p: Vector;
     do {
