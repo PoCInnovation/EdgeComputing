@@ -81,6 +81,26 @@ export default class Vector {
     return this.clone().sub(vector.clone().mul(this.dot(vector) * 2));
   }
 
+  public refraction(n: Vector, niOverNt: number): Vector | undefined {
+    const uv = this.unit();
+    const dt = uv.dot(n);
+    const discriminant = 1 - niOverNt * niOverNt * (1 - dt * dt);
+
+    if (discriminant > 0) {
+      return uv.clone().sub(n.clone().mul(dt))
+        .mul(niOverNt).sub(n.clone().mul(Math.sqrt(discriminant)));
+    }
+    return undefined;
+  }
+
+  public cross(vec: Vector): Vector {
+    return new Vector(
+      this.y * vec.z - this.z * vec.y,
+      -(this.x * vec.z - this.z * vec.x),
+      this.x * vec.y - this.y * vec.x,
+    );
+  }
+
   public static randomInUnitSphere(): Vector {
     let p: Vector;
     do {

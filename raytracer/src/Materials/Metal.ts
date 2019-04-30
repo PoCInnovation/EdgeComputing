@@ -20,6 +20,7 @@ export default class Metal extends Material {
       return {
         scattered,
         attenuation: this.reflection.clone(),
+        refracted: false,
       };
     }
     return undefined;

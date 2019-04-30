@@ -3,6 +3,7 @@ import Color from '../Color';
 import Ray from '../Ray';
 
 export interface MaterialHit {
+  refracted: boolean;
   attenuation: Color;
   scattered: Ray;
 }

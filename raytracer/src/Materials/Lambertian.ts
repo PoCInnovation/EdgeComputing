@@ -2,7 +2,6 @@ import { Material, MaterialHit } from './Material';
 import { ShapeHit } from '../Shapes/Shape';
 import Vector from '../Vector';
 import Ray from '../Ray';
-import Color from '../Color';
 
 export default class Lambertian extends Material {
   public scatter(ray: Ray, hit: ShapeHit): MaterialHit {
@@ -11,6 +10,7 @@ export default class Lambertian extends Material {
     return {
       attenuation: this.reflection.clone(),
       scattered: new Ray(hit.p, target.sub(hit.p)),
+      refracted: false,
     };
   }
 }
