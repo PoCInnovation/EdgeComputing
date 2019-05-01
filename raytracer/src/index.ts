@@ -29,14 +29,6 @@ function randomScene(n: number): Shape[] {
                       Math.random() * Math.random(),
                       Math.random() * Math.random()));
           shapes[i] = new Sphere(center, mat, 0.2);
-          // const mat = new Lambertian(
-          //   new Color(Math.random() * Math.random(),
-          //             Math.random() * Math.random(),
-          //             Math.random() * Math.random()));
-          // shapes[i] = new MovingSphere(
-          //   center, center.clone().add(new Vector(0, 0.5 * Math.random(), 0)),
-          //   0, 1, 0.2, mat,
-          // );
         } else if (chooseMath < 0.95) {
           shapes[i] = new Sphere(center, new Metal(
             new Color(0.5 * (1 + Math.random()),
@@ -84,6 +76,7 @@ async function main() {
     console.error('Can\'t get the context.');
     return;
   }
+
   scene.render(context, camera, shapes);
 }
 
