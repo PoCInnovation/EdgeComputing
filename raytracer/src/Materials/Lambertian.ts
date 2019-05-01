@@ -9,7 +9,7 @@ export default class Lambertian extends Material {
 
     return {
       attenuation: this.reflection.clone(),
-      scattered: new Ray(hit.p, target.sub(hit.p)),
+      scattered: new Ray(hit.p, target.sub(hit.p), ray.time),
       refracted: false,
     };
   }

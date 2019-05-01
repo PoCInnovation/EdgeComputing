@@ -42,9 +42,9 @@ export default class Dielectric extends Material {
     }
 
     if (Math.random() < reflectProbe) {
-      materialHit.scattered = new Ray(hit.p, reflected);
+      materialHit.scattered = new Ray(hit.p, reflected, ray.time);
     } else if (refracted !== undefined) {
-      materialHit.scattered = new Ray(hit.p, refracted);
+      materialHit.scattered = new Ray(hit.p, refracted, ray.time);
     }
 
     return materialHit;

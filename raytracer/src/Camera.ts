@@ -7,9 +7,11 @@ export default class Camera {
   public vertical: Vector;
   public origin: Vector;
   private readonly lensRadius: number;
+  private readonly time0: number;
+  private readonly time1: number;
 
   constructor(lookFrom: Vector, lookAt: Vector, vUp: Vector, vfov: number,
-              aspect: number, aperture: number, focusDist: number) {
+              aspect: number, aperture: number, focusDist: number, t0: number, t1: number) {
     const halfHeight = Math.tan(vfov * Math.PI / 180 / 2);
     const halfWidth = aspect * halfHeight;
     const w = lookFrom.clone().sub(lookAt).unit();
@@ -24,16 +26,20 @@ export default class Camera {
       .sub(w.clone().mul(focusDist));
     this.horizontal = u.clone().mul(2 * halfWidth * focusDist);
     this.vertical = v.clone().mul(2 * halfHeight * focusDist);
+    this.time0 = t0;
+    this.time1 = t1;
   }
 
   public getRay(u: number, v: number): Ray {
     const rd = Vector.randomInUnitDisk().mul(this.lensRadius);
     const offset = u * rd.x + v * rd.y;
-
-    return new Ray(this.origin.clone().add(offset), this.lowerLeftCorner.clone()
+    const direction = this.lowerLeftCorner.clone()
       .add(this.horizontal.clone().mul(u))
       .add(this.vertical.clone().mul(v))
       .sub(this.origin)
-      .sub(offset));
+      .sub(offset);
+    const time = this.time0 + Math.random() * (this.time1 - this.time0);
+
+    return new Ray(this.origin.clone().add(offset), direction, time);
   }
 }

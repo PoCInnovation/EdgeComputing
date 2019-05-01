@@ -14,7 +14,8 @@ export default class Metal extends Material {
 
   public scatter(ray: Ray, hit: ShapeHit): MaterialHit | undefined {
     const reflect = ray.direction.unit().reflect(hit.normal);
-    const scattered = new Ray(hit.p, reflect.add(Vector.randomInUnitSphere().mul(this.blur)));
+    const scattered = new Ray(
+      hit.p, reflect.add(Vector.randomInUnitSphere().mul(this.blur)), ray.time);
 
     if (scattered.direction.dot(hit.normal) > 0) {
       return {
