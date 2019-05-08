@@ -7,6 +7,8 @@ import NavBar from './Components/NavBar';
 import Footer from './Components/Footer';
 
 import Intro from './Pages/Intro';
+import Renders from './Pages/Renders';
+import About from './Pages/About';
 import NotFound from './Pages/NotFound';
 
 const StyledApp = styled.div`
@@ -30,6 +32,8 @@ const App: React.FC = () => {
         <Container>
           <Switch>
             <Route path='/' exact component={Intro} />
+            <Route path='/renders' exact component={Renders} />
+            <Route path='/about' exact component={About} />
             <Route component={NotFound} />
           </Switch>
         </Container>

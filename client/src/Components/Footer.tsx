@@ -10,11 +10,11 @@ const StyledFooter = styled.footer`
   text-align: start;
   padding: .2rem;
 
-  @media (min-width:1025px) {
+  @media (min-width: ${props => props.theme.devices.desktop}) {
     font-size: 1.6rem;
   }
 
-  @media (max-width: 1025px) {
+  @media (max-width: ${props => props.theme.devices.desktop}) {
     text-align: center;
     #mentions {
       display: none;

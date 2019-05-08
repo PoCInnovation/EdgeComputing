@@ -16,14 +16,21 @@ export const Theme = {
   },
 
   shadows: {
-    small: '0 0 4px rgba(0, 0, 0, .125)',
-    large: '0 0 24px rgba(0, 0, 0, .125)'
+    small: '0 0 8px rgba(0, 0, 0, .125)',
+    medium: '0 0 24px rgba(0, 0, 0, .325)',
+    large: '0 0 44px rgba(0, 0, 0, .525)'
+  },
+
+  devices: {
+    mobile: '600px',
+    desktop: '1025px'
   }
 };
 
 export interface ThemeInterface {
   colors: { [key in keyof typeof Theme.colors]: string },
   shadows: { [key in keyof typeof Theme.shadows]: string },
+  devices: { [key in keyof typeof Theme.devices]: string },
 };
 
 export const GlobalStyle = createGlobalStyle<any>`
