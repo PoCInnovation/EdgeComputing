@@ -4,8 +4,22 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node ./dist/App.js",
+    "start": "node -r ts-node/register ./src/App.ts",
+    "start:watch": "nodemon",
     "build": "tsc -p ."
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "**/*.test.ts",
+      "**/*.spec.ts",
+      ".git",
+      "node_modules"
+    ],
+    "watch": [
+      "src"
+    ],
+    "exec": "yarn start",
+    "ext": "ts"
   },
   "dependencies": {
     "@types/node": "^12.0.0",
@@ -26,6 +40,8 @@
     "@types/helmet": "^0.0.43",
     "@types/morgan": "^1.7.35",
     "@types/sequelize": "^4.27.49",
-    "@types/socket.io": "^2.1.2"
+    "@types/socket.io": "^2.1.2",
+    "nodemon": "^1.19.0",
+    "ts-node": "^8.1.0"
   }
 }

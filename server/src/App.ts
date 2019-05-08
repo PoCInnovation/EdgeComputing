@@ -5,7 +5,7 @@ import morgan from 'morgan';
 import Server from './Server';
 import Events from './Config/Events';
 
-const server = new Server({ port: process.env.PORT || 3000 });
+const server = new Server();
 
 server.use(compression());
 server.use(helmet());
@@ -21,7 +21,7 @@ server.wsHandler.on(Events.connection, (socket) => {
   });
 });
 
-server.listen();
+server.listen(process.env.PORT || 3000, '127.0.0.1');
 
 
 // Database
