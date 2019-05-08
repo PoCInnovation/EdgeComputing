@@ -1,0 +1,17 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+<script>
+  const Events = {
+    new: 'NEW',
+    done: 'DONE'
+  };
+
+
+  var socket = io.connect('http://localhost:3000');
+
+  socket.on(Events.new, (data) => {
+    console.error('hello');
+    console.log(data);
+
+    setTimeout(() => socket.emit(Events.done, { my: 'data' }), 5000);
+  });
+</script>
