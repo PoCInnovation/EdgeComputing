@@ -22,6 +22,7 @@
     "ext": "ts"
   },
   "dependencies": {
+    "apollo-server-express": "^2.5.0",
     "compression": "^1.7.4",
     "express": "^4.16.4",
     "express-graphql": "^0.8.0",
@@ -34,12 +35,16 @@
     "sequelize": "^5.8.5",
     "socket.io": "^2.2.0",
     "sqlite3": "^4.0.7",
+    "type-graphql": "^0.17.3",
+    "typedi": "^0.8.0",
     "typeorm": "^0.2.17",
+    "typeorm-typedi-extensions": "^0.2.3",
     "typescript": "^3.4.5"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.26",
     "@types/compression": "^0.0.36",
+    "@types/graphql": "^14.2.0",
     "@types/helmet": "^0.0.43",
     "@types/morgan": "^1.7.35",
     "@types/node": "^12.0.0",

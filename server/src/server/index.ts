@@ -1,6 +1,7 @@
 import express from 'express';
 import http from 'http';
 
+import ApolloHandler from './ApolloHandler';
 import WebSocketHandler from './WebSocketHandler';
 
 class HTTPServer {
@@ -12,6 +13,8 @@ class HTTPServer {
     this.app = express();
     this.server = new http.Server(this.app);
     this.wsHandler = new WebSocketHandler(this.server);
+
+    ApolloHandler(this.app);
   }
 
   use(handler: express.RequestHandler) {
@@ -20,7 +23,7 @@ class HTTPServer {
 
   listen(port: number | string, hostname?: string) {
     this.server.listen(Number(port), hostname, () =>
-      console.log(`Listening on port ${port}!`)
+      console.log(`Listening on port http://${hostname ? hostname : '0.0.0.0'}:${port}/!`)
     );
   }
 };

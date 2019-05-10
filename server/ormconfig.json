@@ -5,41 +5,41 @@
   "logging": false,
   "synchronize": true,
   "entities": [
-    "src/entity/**/*.ts"
+    "src/entities/**/*.ts"
   ],
   "migrations": [
-    "src/migration/**/*.ts"
+    "src/migrations/**/*.ts"
   ],
   "subscribers": [
-    "src/subscriber/**/*.ts"
+    "src/subscribers/**/*.ts"
   ],
   "cli": {
-    "entitiesDir": "src/entity",
-    "migrationsDir": "src/migration",
-    "subscribersDir": "src/subscriber"
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migrations",
+    "subscribersDir": "src/subscribers"
   }
 }, {
   "name": "production",
-  "type": "mysql",
-  "host": "localhost",
-  "port": 3306,
-  "username": "test",
-  "password": "test",
-  "database": "test",
+  "type": "postgresql",
+  "host": "postgres",
+  "port": 5432,
+  "username": "edgeComputing",
+  "password": "edgeComputing",
+  "database": "edgeComputing",
   "synchronize": true,
   "logging": false,
   "entities": [
-    "src/entity/**/*.ts"
+    "src/entities/**/*.ts"
   ],
   "migrations": [
-    "src/migration/**/*.ts"
+    "src/migrations/**/*.ts"
   ],
   "subscribers": [
-    "src/subscriber/**/*.ts"
+    "src/subscribers/**/*.ts"
   ],
   "cli": {
-    "entitiesDir": "src/entity",
-    "migrationsDir": "src/migration",
-    "subscribersDir": "src/subscriber"
+    "entitiesDir": "src/entities",
+    "migrationsDir": "src/migrations",
+    "subscribersDir": "src/subscribers"
   }
 }]

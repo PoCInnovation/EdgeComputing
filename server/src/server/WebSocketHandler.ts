@@ -1,7 +1,7 @@
-import socketIO from 'socket.io';
 import http from 'http';
+import socketIO from 'socket.io';
 
-import Events from '../Config/Events';
+import { ConnectType, DisconnectType } from '../events';
 
 type WSMethodHandler = (socket: SocketIO.Socket) => void;
 
@@ -17,7 +17,7 @@ class WebSocketHandler {
 
   constructor(server: http.Server) {
     this.io = socketIO(server);
-    this.io.on(Events.connection, (socket: SocketIO.Socket) =>
+    this.io.on(ConnectType, (socket: SocketIO.Socket) =>
       this.onConnect(socket)
     );
   }
@@ -29,12 +29,12 @@ class WebSocketHandler {
   private onConnect(socket: socketIO.Socket) {
     this.workers += 1;
 
-    socket.on(Events.disconnect, (socket: SocketIO.Socket) =>
+    socket.on(DisconnectType, (socket: SocketIO.Socket) =>
       this.onDisconnect(socket)
     );
 
     this.handlers.map((handler) => {
-      if (handler.method === Events.connection) {
+      if (handler.method === ConnectType) {
         handler.handler(socket);
       } else {
         socket.on(handler.method, handler.handler);
