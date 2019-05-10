@@ -3,14 +3,10 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import Block from '../entities/Block';
-import Scene from '../entities/Scene';
 
 @Resolver(of => Block)
 export default class BlockResolver {
-  constructor(
-    @InjectRepository(Block) private readonly repository: Repository<Block>,
-    @InjectRepository(Scene) private readonly sceneRepository: Repository<Scene>
-  ) {}
+  constructor(@InjectRepository(Block) private readonly repository: Repository<Block>) {}
 
   @Query(returns => Block, { nullable: true })
   block(@Arg('id', type => Int) id: number) {

@@ -1,23 +1,29 @@
+import gql from 'graphql-tag';
+import moment from 'moment';
 import React from 'react';
-import styled from 'styled-components';
+import { Query, QueryResult } from 'react-apollo';
 import { Box, Flex } from 'rebass';
+import styled from 'styled-components';
 
-interface data {
-  name: string;
-  isFinished: boolean;
-  date: string;
-  url: string;
+import Scene from '../Interfaces/Scene';
+
+const GET_SCENES = gql`
+  {
+    scenes {
+      id
+      name
+      createdAt
+      isFinished
+    }
+  }
+`;
+
+interface QueryInterface {
+  scenes: Scene[];
 };
 
-const fakeData: data[] = [
-  { name: 'A simple scene', isFinished: true, date: 'Yesterday', url: 'https://cdn.discordapp.com/attachments/553271868115910656/573185929611575326/random.png'},
-  { name: 'Big scene', isFinished: false, date: '1 hour ago', url: 'https://cdn.discordapp.com/attachments/561254039170449408/572822214752337930/boule-flou.png'},
-  { name: 'Big scene', isFinished: false, date: '3 minutes ago', url: 'https://cdn.discordapp.com/attachments/561254039170449408/572806809580994560/clement_demission_yann.png'},
-  { name: 'Big scene', isFinished: false, date: '3 March 2017', url: 'https://cdn.discordapp.com/attachments/561254039170449408/572794697769025536/glass.png'}
-];
-
-interface RendersProps {
-  renders: data[]
+interface RenderSceneProps {
+  scenes: Scene[];
 };
 
 interface StyledBoxProps {
@@ -58,18 +64,18 @@ const StyledGrid = styled(Flex)`
   }
 `;
 
-const Renders: React.FC<RendersProps> = ({ renders }) => (
+const RenderScenes: React.FC<RenderSceneProps> = ({ scenes }) => (
   <>
     <div style={{marginBottom: '10rem'}}>
       <h1 style={{margin: 0}}>Renders</h1>
     </div>
     <StyledGrid flexWrap='wrap' justifyContent='space-between' height='100%'>
-      {renders.map((render, i) => (
-        <StyledBox isFinished={render.isFinished} key={i} mb='2rem'>
-          <img alt={render.name} src={render.url} style={{width: '100%', height: '10rem', objectFit: 'cover'}} />
-          <Box p='1rem' mx='0' style={{textAlign: 'start'}}>
-            <h5 style={{color: 'white'}}>{ render.name }</h5>
-            <h6 style={{fontWeight: 'normal'}}>{render.date}</h6>
+      {scenes.map((scene, i) => (
+        <StyledBox isFinished={scene.isFinished} key={i} mb='2rem'>
+          {/* <img alt={scene.name} src={scene.url} style={{width: '100%', height: '10rem', objectFit: 'cover'}} /> */}
+          <Box p='1rem' mx='0' style={{textAlign: 'start', minHeight: '12rem', minWidth: '20rem'}}>
+            <h5 style={{color: 'white'}}>{ scene.name }</h5>
+            <h6 style={{fontWeight: 'normal'}}>{moment.duration(moment(scene.createdAt).minutes(), 'minutes').humanize(true)}</h6>
           </Box>
         </StyledBox>
       ))}
@@ -77,8 +83,15 @@ const Renders: React.FC<RendersProps> = ({ renders }) => (
   </>
 );
 
-Renders.defaultProps = {
-  renders: fakeData
-};
+const Renders: React.FC = () => (
+  <Query query={GET_SCENES}>
+    {({ loading, error, data }: QueryResult<QueryInterface>) => {
+      if (loading || data === undefined) return "Loading...";
+      if (error) return `Error! ${error.message}`;
+
+      return <RenderScenes scenes={data.scenes} />;
+    }}
+  </Query>
+);
 
 export default Renders;

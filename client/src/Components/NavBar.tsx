@@ -8,11 +8,9 @@ const StyledNavBar = styled.header`
   top: 0;
   position: fixed;
   width: 100%;
-  z-index: 1;
-  margin: 0;
-  text-align: start;
-  max-width: 75rem;
+  z-index: 2;
   padding: .5rem;
+  margin: 0;
 
   > * {
     font-size: 1.5rem;
@@ -24,7 +22,7 @@ const NavBar: React.FC = () => (
   <StyledNavBar>
     <NavLink to='/'>intro</NavLink>
     <NavLink to='/renders' exact >renders</NavLink>
-    <NavLink to='/about' exact>about</NavLink>
+    <NavLink to='/new' exact>new</NavLink>
   </StyledNavBar>
 );
 

@@ -1,15 +1,14 @@
 import React from 'react';
-import styled from 'styled-components';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Container from './Components/Container';
-import NavBar from './Components/NavBar';
 import Footer from './Components/Footer';
-
+import NavBar from './Components/NavBar';
 import Intro from './Pages/Intro';
-import Renders from './Pages/Renders';
-import About from './Pages/About';
+import New from './Pages/New';
 import NotFound from './Pages/NotFound';
+import Renders from './Pages/Renders';
 
 const StyledApp = styled.div`
   text-align: center;
@@ -22,6 +21,14 @@ const StyledApp = styled.div`
   color: white;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: ${props => props.theme.devices.mobile}) {
+    justify-content: start;
+
+    * > div {
+      margin-top: 8rem;
+    }
+  }
 `;
 
 const App: React.FC = () => {
@@ -33,7 +40,7 @@ const App: React.FC = () => {
           <Switch>
             <Route path='/' exact component={Intro} />
             <Route path='/renders' exact component={Renders} />
-            <Route path='/about' exact component={About} />
+            <Route path='/new' exact component={New} />
             <Route component={NotFound} />
           </Switch>
         </Container>

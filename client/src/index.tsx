@@ -1,17 +1,24 @@
+import ApolloClient from 'apollo-boost';
 import React from 'react';
+import { ApolloProvider } from 'react-apollo';
 import ReactDOM from 'react-dom';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from 'styled-components';
-import { Theme, GlobalStyle } from './Configs/Theme';
+
+import App from './App';
+import { GlobalStyle, Theme } from './Configs/Theme';
+import * as serviceWorker from './serviceWorker';
+
+const client = new ApolloClient({ uri: '/graphql' });
 
 ReactDOM.render(
-  <ThemeProvider theme={Theme}>
-    <>
-      <App />
-      <GlobalStyle />
-    </>
-  </ThemeProvider>,
+  <ApolloProvider client={client}>
+    <ThemeProvider theme={Theme}>
+      <>
+        <App />
+        <GlobalStyle />
+      </>
+    </ThemeProvider>
+  </ApolloProvider>,
 document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
