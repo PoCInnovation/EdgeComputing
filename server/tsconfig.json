@@ -9,14 +9,17 @@
       "sourceMap": true,
       "outDir": "./dist",
       "baseUrl": "./src/",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
       "paths": {
           "*": [
             "node_modules/*",
           ]
       },
       "lib": [
-          "es2015"
-      ]
+        "es5",
+        "es6"
+     ],
   },
   "include": [
       "src/**/*"

@@ -22,7 +22,6 @@
     "ext": "ts"
   },
   "dependencies": {
-    "@types/node": "^12.0.0",
     "compression": "^1.7.4",
     "express": "^4.16.4",
     "express-graphql": "^0.8.0",
@@ -31,16 +30,22 @@
     "morgan": "^1.9.1",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
+    "reflect-metadata": "^0.1.13",
     "sequelize": "^5.8.5",
     "socket.io": "^2.2.0",
+    "sqlite3": "^4.0.7",
+    "typeorm": "^0.2.17",
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "@types/bluebird": "^3.5.26",
     "@types/compression": "^0.0.36",
     "@types/helmet": "^0.0.43",
     "@types/morgan": "^1.7.35",
+    "@types/node": "^12.0.0",
     "@types/sequelize": "^4.27.49",
     "@types/socket.io": "^2.1.2",
+    "@types/validator": "^10.11.0",
     "nodemon": "^1.19.0",
     "ts-node": "^8.1.0"
   }
