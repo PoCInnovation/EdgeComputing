@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Uploader from '../Components/Uploader';
+import Uploader from '../../Components/Uploader';
 
 const New: React.FC = () => (
   <>

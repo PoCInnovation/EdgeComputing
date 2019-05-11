@@ -42,11 +42,7 @@ class WebSocketHandler {
     this.handlers.push({method, handler});
   }
 
-  public getConnected() {
-    return this.io.sockets.adapter.rooms;
-  }
-
-  private middleware(socket: SocketIO.Socket, next: (err?: any) => void) {
+  private async middleware(socket: SocketIO.Socket, next: (err?: any) => void) {
     if ('id' in socket.handshake.query) {
       return next();
     }

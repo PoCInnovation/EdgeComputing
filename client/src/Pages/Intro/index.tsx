@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Button from '../Components/Button';
+import Button from '../../Components/Button';
 
 const Intro: React.FC = () => (
   <>
