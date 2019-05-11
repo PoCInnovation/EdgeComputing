@@ -8,6 +8,7 @@ import NavBar from './Components/NavBar';
 import Intro from './Pages/Intro';
 import New from './Pages/New';
 import NotFound from './Pages/NotFound';
+import Render from './Pages/Render';
 import Renders from './Pages/Renders';
 
 const StyledApp = styled.div`
@@ -40,6 +41,7 @@ const App: React.FC = () => {
           <Switch>
             <Route path='/' exact component={Intro} />
             <Route path='/renders' exact component={Renders} />
+            <Route path='/render/:id' exact component={Render} />
             <Route path='/new' exact component={New} />
             <Route component={NotFound} />
           </Switch>
