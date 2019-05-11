@@ -8,7 +8,7 @@ export default class Dielectric extends Material {
   private readonly refIdx: number;
 
   constructor(ri: number) {
-    super(new Color(0, 0, 0));
+    super(new Color(0, 0, 0), 'Dielectric');
     this.refIdx = ri;
   }
 

@@ -8,7 +8,7 @@ export default class Metal extends Material {
   private readonly blur: number;
 
   constructor(reflection: Color, blur: number) {
-    super(reflection);
+    super(reflection, 'Metal');
     this.blur = blur;
   }
 

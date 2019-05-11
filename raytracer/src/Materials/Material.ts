@@ -9,9 +9,11 @@ export interface MaterialHit {
 }
 
 export class Material {
+  private readonly name: string;
   public reflection: Color;
 
-  constructor(reflection: Color) {
+  constructor(reflection: Color, name: string = 'Lambertian') {
+    this.name = name;
     this.reflection = reflection;
   }
 

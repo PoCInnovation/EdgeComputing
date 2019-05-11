@@ -8,56 +8,46 @@ import Vector from './Vector';
 import Camera from './Camera';
 import Scene from './Scene';
 import Color from './Color';
-import MovingSphere from './Shapes/MovingSphere';
 
-function randomScene(n: number): Shape[] {
-  const shapes: Shape[] = [
-    new Sphere(new Vector(0, -1000, 0), new Lambertian(new Color(0.5, 0.5, 0.5)), 1000),
-  ];
-  let i = 1;
+function readScene(): Shape[] {
+  const shapes: Shape[] = [];
 
-  for (let a = -5; a < 5; a += 1) {
-    for (let b = -5; b < 5; b += 1) {
-      const chooseMath = Math.random();
-      const center = new Vector(a + 0.9 * Math.random(), 0.2, b + 0.9 * Math.random());
-
-      if (center.clone().sub(new Vector(4, 0.2, 0)).magnitude() > 0.9) {
-        i += 1;
-        if (chooseMath < 0.8) {
-          const mat = new Lambertian(
-            new Color(Math.random() * Math.random(),
-                      Math.random() * Math.random(),
-                      Math.random() * Math.random()));
-          shapes[i] = new Sphere(center, mat, 0.2);
-        } else if (chooseMath < 0.95) {
-          shapes[i] = new Sphere(center, new Metal(
-            new Color(0.5 * (1 + Math.random()),
-                      0.5 * (1 + Math.random()),
-                      0.5 * (1 + Math.random())),
-            0.5 * (1 + Math.random())),
-                                 0.2);
-        } else {
-          shapes[i] = new Sphere(center, new Dielectric(1.5), 0.2);
-        }
-      }
+  Config.objects.forEach((obj) => {
+    if (obj.material.name === 'Dielectric' && obj.material.refIdx !== undefined) {
+      shapes[shapes.length] = new Sphere(
+        new Vector(obj.position.x, obj.position.y, obj.position.z),
+        new Dielectric(obj.material.refIdx),
+        obj.radius);
+    } else if (obj.material.name === 'Lambertian') {
+      shapes[shapes.length] = new Sphere(
+        new Vector(obj.position.x, obj.position.y, obj.position.z),
+        new Lambertian(new Color(obj.material.reflection.r,
+                                 obj.material.reflection.b,
+                                 obj.material.reflection.b)),
+        obj.radius);
+    } else if (obj.material.name === 'Metal') {
+      shapes[shapes.length] = new Sphere(
+        new Vector(obj.position.x, obj.position.y, obj.position.z),
+        new Metal(new Color(obj.material.reflection.r,
+                            obj.material.reflection.b,
+                            obj.material.reflection.b),
+                  (obj.material.blur !== undefined) ? obj.material.blur : 0),
+        obj.radius);
     }
-  }
-
-  shapes[i + 1] = new Sphere(new Vector(0, 1, 0), new Dielectric(1.5), 1);
-  shapes[i + 2] = new Sphere(new Vector(-4, 1, 0), new Lambertian(new Color(0.4, 0.2, 0.1)), 1);
-  shapes[i + 3] = new Sphere(new Vector(4, 1, 0), new Metal(new Color(0.7, 0.6, 0.5), 0), 1);
+  });
   return shapes;
 }
 
 async function main() {
   const canvas = document.createElement('canvas');
-  const shapes: Shape[] = randomScene(500);
+  const shapes: Shape[] = readScene();
 
-  const lookFrom = new Vector(13, 2, 3);
+  const lookFrom = new Vector(15, 1, -2);
   const lookAt = new Vector(0, 0, 0);
 
   const camera = new Camera(lookFrom, lookAt, new Vector(0, 1, 0),
-                            20, Config.width / Config.height, 0, 10, 0, 1);
+                            20, Config.width / Config.height, 0,
+                            (lookFrom.clone().sub(lookAt)).magnitude(), 0, 1);
 
   if (canvas == null) {
     console.error('Failed to create canvas.');
