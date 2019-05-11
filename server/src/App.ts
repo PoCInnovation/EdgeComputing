@@ -14,9 +14,13 @@ useContainer(Container);
 createConnection().then(async connection => {
   const server = new Server();
 
-  server.use(compression());
-  server.use(helmet());
-  server.use(morgan('short'));
+  server.app.use(compression());
+  server.app.use(helmet());
+  server.app.use(morgan('short'));
+
+  server.app.get('/', (req, res) => {
+    res.send(server.wsHandler.getConnected());
+  });
 
   server.wsHandler.on(ConnectType, (socket) => {
     console.error('this is a simple test!');

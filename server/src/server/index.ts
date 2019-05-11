@@ -5,7 +5,7 @@ import ApolloHandler from './ApolloHandler';
 import WebSocketHandler from './WebSocketHandler';
 
 class HTTPServer {
-  private readonly app: express.Application;
+  public readonly app: express.Application;
   private readonly server: http.Server;
   public readonly wsHandler: WebSocketHandler;
 
@@ -15,10 +15,6 @@ class HTTPServer {
     this.wsHandler = new WebSocketHandler(this.server);
 
     ApolloHandler(this.app);
-  }
-
-  use(handler: express.RequestHandler) {
-    this.app.use(handler);
   }
 
   listen(port: number | string, hostname?: string) {
