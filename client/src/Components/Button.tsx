@@ -21,9 +21,12 @@ const Button = styled.label<ButtonProps>`
 
   ${props => props.white && `
     background-color: ${props.theme.colors.primary};
+    transition: background-color .25s ease-out, box-shadow .25s ease-out,
+      color .25s ease-out;
 
     :hover {
       background-color: ${props.theme.colors.secondary};
+      color: ${props.theme.colors.primary};
       box-shadow: ${props.theme.shadows.medium};
     }
   `}

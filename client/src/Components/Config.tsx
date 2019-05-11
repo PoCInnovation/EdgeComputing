@@ -2,8 +2,9 @@ import gql from 'graphql-tag';
 import React from 'react';
 import { Query, QueryResult } from 'react-apollo';
 import ReactModal from 'react-modal';
+import { ThemeProps, withTheme } from 'styled-components';
 
-import { Theme } from '../Configs/Theme';
+import { ThemeInterface } from '../Configs/Theme';
 import Scene from '../Interfaces/Scene';
 import Button from './Button';
 import Container from './Container';
@@ -15,18 +16,6 @@ const GET_CONFIG = gql`
     }
   }
 `;
-
-const ModalStyle = {
-  overlay: {
-    backgroundColor: Theme.colors.main + 'fd',
-    zIndex: 5
-  },
-  content: {
-    backgroundColor: 'white',
-    boxShadow: Theme.shadows.large,
-    zIndex: 5
-  }
-};
 
 interface QueryInterface {
   scene: Scene;
@@ -73,7 +62,7 @@ const RenderConfig: React.FC<ConfigProps> = ({ id }) => {
   );
 };
 
-class Config extends React.Component<ConfigProps, ConfigState> {
+class Config extends React.Component<ConfigProps & ThemeProps<ThemeInterface>, ConfigState> {
   state = {
     showModal: false
   };
@@ -90,7 +79,19 @@ class Config extends React.Component<ConfigProps, ConfigState> {
     return (
       <>
         <Button onClick={() => this.openModal()}>View config</Button>
-        <ReactModal isOpen={this.state.showModal} style={ModalStyle}>
+        <ReactModal
+          isOpen={this.state.showModal}
+          style={{
+            overlay: {
+              backgroundColor: this.props.theme.colors.main + 'fd',
+              zIndex: 5
+            }, content: {
+              backgroundColor: 'white',
+              boxShadow: this.props.theme.shadows.large,
+              zIndex: 5
+            }
+          }}
+        >
           <div style={{width: '100%', margin: '1rem'}}>
             <Button white onClick={() => this.closeModal()}>Close</Button>
           </div>
@@ -103,4 +104,4 @@ class Config extends React.Component<ConfigProps, ConfigState> {
   }
 };
 
-export default Config;
+export default withTheme(Config);
