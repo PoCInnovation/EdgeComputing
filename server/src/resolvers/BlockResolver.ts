@@ -10,12 +10,19 @@ export default class BlockResolver {
 
   @Query(returns => Block, { nullable: true })
   block(@Arg('id', type => Int) id: number) {
-    return this.repository.findOne(id);
+    return this.repository.findOne(id, { relations: ['scene'] });
   }
 
   @Query(returns => [Block], { nullable: true })
-  blocks() {
-    return this.repository.find();
+  blocks(@Arg('sceneId', type => Int) sceneId: number) {
+    return this.repository.find({
+      where: {
+        scene: {
+          id: sceneId
+        }
+      },
+      relations: ['scene']
+    });
   }
 
   @Mutation(returns => Block)

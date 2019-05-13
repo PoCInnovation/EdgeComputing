@@ -1,10 +1,10 @@
-import { SceneInterface } from '@edge-computing/interfaces';
 import gql from 'graphql-tag';
 import React from 'react';
 import { Mutation, MutationFunc, MutationResult } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { withTheme } from 'styled-components';
 
+import { SceneInterface } from '../edge-computing/interfaces';
 import ValidateConfig from '../utils/ValidateConfig';
 import Button from './Button';
 

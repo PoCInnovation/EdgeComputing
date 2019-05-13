@@ -1,9 +1,9 @@
-import { SceneInterface } from '@edge-computing/interfaces';
 import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box } from 'rebass';
 
+import { SceneInterface } from '../../edge-computing/interfaces';
 import { StyledBox } from './Box';
 import { StyledGrid } from './Grid';
 

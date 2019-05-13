@@ -1,7 +1,8 @@
-import { ConnectionType } from '@edge-computing/connections';
-import { ConnectedCountType } from '@edge-computing/events';
 import React from 'react';
 import { connect } from 'socket.io-client';
+
+import { ConnectionType } from '../../edge-computing/connections';
+import { ConnectedCountType } from '../../edge-computing/events';
 
 interface ConnectedIndicatorProps {
   id: string;

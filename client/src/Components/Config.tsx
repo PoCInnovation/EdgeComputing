@@ -1,4 +1,3 @@
-import { SceneInterface } from '@edge-computing/interfaces';
 import gql from 'graphql-tag';
 import React from 'react';
 import { Query, QueryResult } from 'react-apollo';
@@ -6,6 +5,7 @@ import ReactModal from 'react-modal';
 import { ThemeProps, withTheme } from 'styled-components';
 
 import { ThemeInterface } from '../Configs/Theme';
+import { SceneInterface } from '../edge-computing/interfaces';
 import Button from './Button';
 import Container from './Container';
 

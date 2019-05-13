@@ -1,4 +1,4 @@
-import { UserType } from '@edge-computing/connections';
+import { ConnectionType } from '@edge-computing/connections';
 import { ConnectedCountProps, ConnectedCountType, ConnectType, DisconnectType } from '@edge-computing/events';
 import http from 'http';
 import socketIO from 'socket.io';
@@ -22,11 +22,11 @@ class WebSocketHandler {
   constructor(server: http.Server) {
     this.io = socketIO(server);
 
-    this.io.of(UserType.WORKER).on(ConnectType, (socket: SocketIO.Socket) =>
+    this.io.of(ConnectionType.WORKER).on(ConnectType, (socket: SocketIO.Socket) =>
       this.onWorkerConnect(socket, socket.handshake.query)
     );
 
-    this.io.of(UserType.CLIENT).on(ConnectType, (socket: SocketIO.Socket) =>
+    this.io.of(ConnectionType.CLIENT).on(ConnectType, (socket: SocketIO.Socket) =>
       this.onClientConnect(socket, socket.handshake.query)
     );
 
@@ -46,7 +46,7 @@ class WebSocketHandler {
   }
 
   private async sendConnectedCount(roomID: string, socket?: SocketIO.Socket) {
-    const room = this.io.of(UserType.WORKER).adapter.rooms[roomID];
+    const room = this.io.of(ConnectionType.WORKER).adapter.rooms[roomID];
     const params: ConnectedCountProps = {
       count: room !== undefined ? room.length : 0
     };
@@ -54,8 +54,8 @@ class WebSocketHandler {
     if (socket !== undefined) {
       socket.emit(ConnectedCountType, params);
     } else {
-      this.io.of(UserType.WORKER).to(roomID).emit(ConnectedCountType, params);
-      this.io.of(UserType.CLIENT).to(roomID).emit(ConnectedCountType, params);
+      this.io.of(ConnectionType.WORKER).to(roomID).emit(ConnectedCountType, params);
+      this.io.of(ConnectionType.CLIENT).to(roomID).emit(ConnectedCountType, params);
     }
   }
 
@@ -91,7 +91,7 @@ class WebSocketHandler {
   }
 
   private async onDisconnect(roomID: string, namespace: string) {
-    if (namespace === UserType.WORKER) {
+    if (namespace === ConnectionType.WORKER) {
       this.sendConnectedCount(roomID);
     }
     console.info(`[${--this.connected}] ${namespace} disconnected`);

@@ -17,12 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve",
-    "baseUrl": "./src",
-    "paths": {
-      "@edge-computing/*": ["../../edge-computing/*"],
-      "*": ["node_modules/*"]
-  },
+    "jsx": "preserve"
   },
   "include": [
     "src"
