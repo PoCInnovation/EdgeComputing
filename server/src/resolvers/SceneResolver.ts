@@ -1,13 +1,13 @@
 import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
-import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import Scene from '../entities/Scene';
+import SceneRepository from '../repositories/SceneRepository';
 import SceneInput from './types/SceneInput';
 
 @Resolver(of => Scene)
 export default class SceneResolver {
-  constructor(@InjectRepository(Scene) private readonly repository: Repository<Scene>) {}
+  constructor(@InjectRepository(SceneRepository) private readonly repository: SceneRepository) {}
 
   @Query(returns => Scene, { nullable: true })
   scene(@Arg('id', type => Int) id: number) {

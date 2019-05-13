@@ -1,12 +1,17 @@
+import { ApolloError } from 'apollo-server-express';
 import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
-import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import Block from '../entities/Block';
+import BlockRepository from '../repositories/BlockRepository';
+import SceneRepository from '../repositories/SceneRepository';
 
 @Resolver(of => Block)
 export default class BlockResolver {
-  constructor(@InjectRepository(Block) private readonly repository: Repository<Block>) {}
+  constructor(
+    @InjectRepository(BlockRepository) private readonly repository: BlockRepository,
+    @InjectRepository(SceneRepository) private readonly sceneRepository: SceneRepository
+  ) {}
 
   @Query(returns => Block, { nullable: true })
   block(@Arg('id', type => Int) id: number) {
@@ -25,15 +30,26 @@ export default class BlockResolver {
     });
   }
 
+  @Query(returns => Block, { nullable: true })
+  newBlock() {
+    return this.sceneRepository.getNewBlock();
+  }
+
   @Mutation(returns => Block)
   async updateBlock(@Arg('id', type => Int) id: number, @Arg('data') data: string) {
-    const block = await this.repository.findOne(id);
+    const block = await this.repository.findOne(id, { relations: ['scene'] });
 
     if (block === undefined) {
-      return undefined;
+      throw new ApolloError('This block doesn\'t exist');
     }
 
     block.data = data;
+
+    if (block.x + block.size > block.scene.width && block.y + block.size > block.scene.height) {
+      block.scene.isFinished = true;
+      await block.scene.save();
+    }
+
     return this.repository.save(block);
   }
 };
