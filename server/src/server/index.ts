@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser';
 import express from 'express';
 import http from 'http';
 
@@ -13,6 +14,8 @@ class HTTPServer {
     this.app = express();
     this.server = new http.Server(this.app);
     this.wsHandler = new WebSocketHandler(this.server);
+
+    this.app.use(bodyParser.json({ limit: '2mb' }));
 
     ApolloHandler(this.app);
   }

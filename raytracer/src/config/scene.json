@@ -2,5 +2,6 @@
   "name": "RayTracer",
   "width": 1280,
   "height": 720,
-  "depth": 100
+  "depth": 100,
+  "objects": []
 }
