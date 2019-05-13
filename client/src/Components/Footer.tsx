@@ -32,7 +32,7 @@ const Footer: React.FC = () => (
     <h6>Antoine Ordonez</h6>
     <h6>Victor Neuret</h6>
     <h6>Yann Saison</h6>
-    <h6 id='mentions' style={{float: 'right'}}>POC / Epitech</h6>
+    <h6 id='mentions' style={{float: 'right'}}>POC</h6>
   </StyledFooter>
 );
 

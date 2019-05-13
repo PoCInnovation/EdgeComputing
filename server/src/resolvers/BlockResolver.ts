@@ -1,4 +1,4 @@
-import { Arg, Int, Query, Resolver } from 'type-graphql';
+import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { Repository } from 'typeorm';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
@@ -16,5 +16,17 @@ export default class BlockResolver {
   @Query(returns => [Block], { nullable: true })
   blocks() {
     return this.repository.find();
+  }
+
+  @Mutation(returns => Block)
+  async updateBlock(@Arg('id', type => Int) id: number, @Arg('data') data: string) {
+    const block = await this.repository.findOne(id);
+
+    if (block === undefined) {
+      return undefined;
+    }
+
+    block.data = data;
+    return this.repository.save(block);
   }
 };

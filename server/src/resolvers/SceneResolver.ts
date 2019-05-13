@@ -21,10 +21,10 @@ export default class SceneResolver {
 
   @Mutation(returns => Scene)
   newScene(@Arg('scene') input: SceneInput) {
-    const block = this.repository.create({
+    const scene = this.repository.create({
       ...input
     });
 
-    return this.repository.save(block);
+    return this.repository.save(scene);
   }
 };

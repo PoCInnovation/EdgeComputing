@@ -1,14 +1,9 @@
+import { UserType } from '@edge-computing/connections';
+import { ConnectedCountProps, ConnectedCountType, ConnectType, DisconnectType } from '@edge-computing/events';
 import http from 'http';
 import socketIO from 'socket.io';
 
-import { ConnectedCountProps, ConnectedCountType, ConnectType, DisconnectType } from '../events';
-
 type WSMethodHandler = (socket: SocketIO.Socket) => void;
-
-const UserType = {
-  CLIENT: '/client',
-  WORKER: '/worker'
-};
 
 interface WSMethods {
   method: string;

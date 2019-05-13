@@ -1,6 +1,5 @@
+import { SceneInterface } from '@edge-computing/interfaces';
 import gql from 'graphql-tag';
-
-import Scene from '../../Interfaces/Scene';
 
 export const GRAPHQL_QUERY = gql`
   query scene($id: Int!) {
@@ -16,5 +15,5 @@ export const GRAPHQL_QUERY = gql`
 `;
 
 export interface QueryInterface {
-  scene: Scene;
+  scene: SceneInterface;
 };

@@ -1,20 +1,12 @@
+import { SceneInterface } from '@edge-computing/interfaces';
 import { Field, ID, Int, ObjectType } from 'type-graphql';
-import {
-  BaseEntity,
-  Column,
-  CreateDateColumn,
-  Entity,
-  JoinTable,
-  ManyToMany,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
+import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 import Block from './Block';
 
 @Entity()
 @ObjectType()
-export default class Scene extends BaseEntity {
+export default class Scene extends BaseEntity implements SceneInterface {
   @Field(type => ID)
   @PrimaryGeneratedColumn()
   id!: number;
@@ -39,9 +31,7 @@ export default class Scene extends BaseEntity {
   @Column({ default: false })
   isFinished!: boolean;
 
-  @Field(type => [Block])
-  @ManyToMany(type => Block, { nullable: false })
-  @JoinTable()
+  @OneToMany(type => Block, block => block.scene)
   blocks!: Block[];
 
   @Field(type => Date)

@@ -1,3 +1,4 @@
+import { SceneInterface } from '@edge-computing/interfaces';
 import gql from 'graphql-tag';
 import React from 'react';
 import { Query, QueryResult } from 'react-apollo';
@@ -5,7 +6,6 @@ import ReactModal from 'react-modal';
 import { ThemeProps, withTheme } from 'styled-components';
 
 import { ThemeInterface } from '../Configs/Theme';
-import Scene from '../Interfaces/Scene';
 import Button from './Button';
 import Container from './Container';
 
@@ -18,7 +18,7 @@ const GET_CONFIG = gql`
 `;
 
 interface QueryInterface {
-  scene: Scene;
+  scene: SceneInterface;
 };
 
 interface ConfigProps {

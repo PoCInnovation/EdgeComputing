@@ -1,10 +1,10 @@
+import { SceneInterface } from '@edge-computing/interfaces';
 import gql from 'graphql-tag';
 import React from 'react';
 import { Mutation, MutationFunc, MutationResult } from 'react-apollo';
 import { Link } from 'react-router-dom';
 import { withTheme } from 'styled-components';
 
-import Scene from '../Interfaces/Scene';
 import ValidateConfig from '../utils/ValidateConfig';
 import Button from './Button';
 
@@ -23,7 +23,7 @@ const NEW_SCENE = gql`
 `;
 
 interface ResultInterface {
-  newScene: Scene;
+  newScene: SceneInterface;
 };
 
 class Uploader extends React.Component<any, any> {

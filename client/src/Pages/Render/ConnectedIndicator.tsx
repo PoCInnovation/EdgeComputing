@@ -1,3 +1,5 @@
+import { ConnectionType } from '@edge-computing/connections';
+import { ConnectedCountType } from '@edge-computing/events';
 import React from 'react';
 import { connect } from 'socket.io-client';
 
@@ -25,13 +27,13 @@ export class ConnectedIndicator extends React.Component<ConnectedIndicatorProps,
   }
 
   componentWillMount() {
-    const io = connect('/worker', {
+    const io = connect(ConnectionType.WORKER, {
       query: {
         id: this.props.id
       }
     });
 
-    io.on('connectedCount', (data: any) => this.connectedCountHandler(data));
+    io.on(ConnectedCountType, (data: any) => this.connectedCountHandler(data));
     this.setState({
       onDisconnect: () => io.disconnect()
     });

@@ -1,14 +1,14 @@
+import { SceneInterface } from '@edge-computing/interfaces';
 import moment from 'moment';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box } from 'rebass';
 
-import Scene from '../../Interfaces/Scene';
 import { StyledBox } from './Box';
 import { StyledGrid } from './Grid';
 
 interface RenderSceneProps {
-  scenes: Scene[];
+  scenes: SceneInterface[];
 };
 
 export const RenderQuery: React.FC<RenderSceneProps> = ({ scenes }) => (
