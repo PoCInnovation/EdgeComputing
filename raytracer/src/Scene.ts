@@ -1,8 +1,8 @@
-import { Shape, ShapeHit } from './Shapes/Shape';
-import { Material } from './Materials/Material';
 import Camera from './Camera';
 import Color from './Color';
+import { Material } from './Materials/Material';
 import Ray from './Ray';
+import { Shape, ShapeHit } from './Shapes/Shape';
 
 export default class Scene {
   public readonly width: number;
@@ -49,9 +49,24 @@ export default class Scene {
     context.fillRect(x, this.height - y, 1, 1);
   }
 
-  public render(context: CanvasRenderingContext2D, camera: Camera, shapes: Shape[]): void {
-    for (let y = 0; this.y + y >= 0 && y < this.range; y += 1) {
-      for (let x = 0; this.x + x < this.width && x < this.range; x += 1) {
+// tslint:disable-next-line: max-line-length
+  public renderBlock(camera: Camera, shapes: Shape[], blockX: number, blockY: number, size: number): HTMLCanvasElement | undefined {
+    const canvas = document.createElement('canvas');
+    if (canvas == null) {
+      console.error('Failed to create canvas.');
+      return undefined;
+    }
+    canvas.height = 400;
+    canvas.width = 800;
+    document.body.appendChild(canvas);
+    canvas.hidden = true;
+    const context = canvas.getContext('2d');
+    if (context == null) {
+      console.error('Can\'t get the context.');
+      return undefined;
+    }
+    for (let y = blockY; y < blockY + size && y < this.height; y += 1) {
+      for (let x = blockX; x < blockX + size && x < this.width; x += 1) {
         const col = new Color(0, 0, 0);
         for (let z = 0; z < this.depth; z += 1) {
           col.add(this.getColor(
@@ -60,14 +75,9 @@ export default class Scene {
               (this.y + y + Math.random()) / this.height),
             shapes, 0));
         }
-        this.drawPixel(this.x + x, this.y + y, col, context);
+        this.drawPixel(x, y, col, context);
       }
     }
-    this.x += this.range;
-    if (this.x >= this.width) {
-      this.x = 0;
-      this.y += this.range;
-    }
-    setTimeout(() => this.render(context, camera, shapes), 0);
+    return canvas;
   }
 }
