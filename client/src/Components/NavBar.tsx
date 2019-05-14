@@ -11,6 +11,7 @@ const StyledNavBar = styled.header`
   z-index: 2;
   padding: .5rem;
   margin: 0;
+  user-select: none;
 
   > * {
     font-size: 1.5rem;

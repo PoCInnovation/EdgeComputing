@@ -9,6 +9,7 @@ const StyledFooter = styled.footer`
   z-index: 1;
   text-align: start;
   padding: .2rem;
+  user-select: none;
 
   @media (min-width: ${props => props.theme.devices.desktop}) {
     font-size: 1.6rem;

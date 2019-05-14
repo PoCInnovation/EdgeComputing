@@ -18,8 +18,8 @@ export const RenderQuery: React.FC<RenderSceneProps> = ({ scenes }) => (
     </div>
     <StyledGrid flexWrap='wrap' justifyContent='space-between' height='100%'>
       {scenes.sort((a, b) => b.id - a.id).map((scene, i) => (
-        <Link to={`/render/${scene.id}`} style={{color: 'inherit', textDecoration: 'none'}}>
-          <StyledBox isFinished={scene.isFinished} key={i} mb='2rem'>
+        <Link key={i} to={`/render/${scene.id}`} style={{color: 'inherit', textDecoration: 'none'}}>
+          <StyledBox isFinished={scene.isFinished}>
             {/* <img alt={scene.name} src={scene.url} style={{width: '100%', height: '10rem', objectFit: 'cover'}} /> */}
             <Box p='1rem' mx='0' style={{textAlign: 'start', minHeight: '12rem', minWidth: '20rem'}}>
               <h5 style={{color: 'white'}}>{ scene.name }</h5>

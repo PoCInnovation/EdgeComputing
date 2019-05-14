@@ -11,7 +11,7 @@ export interface RenderProps {
 };
 
 export const RenderQuery: React.FC<RenderProps & QueryInterface & ThemeProps<ThemeInterface>> = ({ id, scene, theme }) => (
-  <>
+  <div style={{marginTop: '4rem'}}>
     <div style={{marginBottom: '4rem'}}>
       <h1 style={{margin: 0}}>{ scene.name }</h1>
       <h4 style={{margin: '.2rem'}}>({scene.width} x {scene.height})</h4>
@@ -29,5 +29,5 @@ export const RenderQuery: React.FC<RenderProps & QueryInterface & ThemeProps<The
         backgroundColor: theme.colors.thirdary
       }}
     />
-  </>
+  </div>
 );

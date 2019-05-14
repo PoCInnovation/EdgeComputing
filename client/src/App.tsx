@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { PoseGroup } from 'react-pose';
+import { BrowserRouter as Router, Route, Switch, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Container from './Components/Container';
@@ -25,27 +26,29 @@ const StyledApp = styled.div`
 
   @media (max-width: ${props => props.theme.devices.mobile}) {
     justify-content: start;
-
-    * > div {
-      margin-top: 8rem;
-    }
   }
 `;
+
+const AppContainer = withRouter(({ location }) => (
+  <PoseGroup>
+    <Container key={location.pathname}>
+      <Switch location={location}>
+        <Route path='/' exact component={Intro} />
+        <Route path='/renders' exact component={Renders} />
+        <Route path='/render/:id' exact component={Render} />
+        <Route path='/new' exact component={New} />
+        <Route component={NotFound} />
+      </Switch>
+    </Container>
+  </PoseGroup>
+));
 
 const App: React.FC = () => {
   return (
     <StyledApp>
       <Router>
         <NavBar />
-        <Container>
-          <Switch>
-            <Route path='/' exact component={Intro} />
-            <Route path='/renders' exact component={Renders} />
-            <Route path='/render/:id' exact component={Render} />
-            <Route path='/new' exact component={New} />
-            <Route component={NotFound} />
-          </Switch>
-        </Container>
+        <AppContainer />
         <Footer />
       </Router>
     </StyledApp>
