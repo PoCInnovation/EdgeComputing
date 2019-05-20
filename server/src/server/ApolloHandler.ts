@@ -3,15 +3,20 @@ import { Application } from 'express';
 import { buildSchemaSync } from 'type-graphql';
 import { Container } from 'typedi';
 
+import { ContextInterface } from '../interfaces/Context';
 import BlockResolver from '../resolvers/BlockResolver';
 import SceneResolver from '../resolvers/SceneResolver';
 
 const schema = buildSchemaSync({
   resolvers: [BlockResolver, SceneResolver],
-  container: Container,
+  container: Container
 });
 
-const server = new ApolloServer({ schema });
+export default (app: Application, context: ContextInterface) => {
+  const server = new ApolloServer({
+    schema,
+    ...context
+  });
 
-export default (app: Application) =>
   server.applyMiddleware({ app });
+}

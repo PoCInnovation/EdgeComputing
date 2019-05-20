@@ -18,7 +18,7 @@ export default class SceneRepository extends Repository<Scene> {
     const freeBlock = await this.blockRepository.getFreeBlock();
 
     if (freeBlock !== undefined) {
-      return freeBlock;
+      return freeBlock.save();
     }
 
     const scenes = await this.find({

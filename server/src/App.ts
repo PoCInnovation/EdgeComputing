@@ -17,6 +17,6 @@ createConnection().then(async connection => {
   server.app.use(helmet());
   server.app.use(morgan('short'));
 
-  server.listen(process.env.PORT || 3000, '127.0.0.1');
+  server.listen(process.env.PORT || 3000, '0.0.0.0');
 
 }).catch(error => console.error(error));

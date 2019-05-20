@@ -1,7 +1,8 @@
-import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import Scene from '../entities/Scene';
+import { ContextInterface } from '../interfaces/Context';
 import SceneRepository from '../repositories/SceneRepository';
 import SceneInput from './types/SceneInput';
 
@@ -20,11 +21,15 @@ export default class SceneResolver {
   }
 
   @Mutation(returns => Scene)
-  newScene(@Arg('scene') input: SceneInput) {
+  async newScene(@Arg('scene') input: SceneInput, @Ctx() { onUpload }: ContextInterface) {
     const scene = this.repository.create({
       ...input
     });
 
-    return this.repository.save(scene);
+    await this.repository.save(scene);
+
+    onUpload(this.repository.getId(scene));
+
+    return scene;
   }
 };

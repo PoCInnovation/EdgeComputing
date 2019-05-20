@@ -1,5 +1,12 @@
-import { ConnectionType } from '@edge-computing/connections';
-import { ConnectedCountProps, ConnectedCountType, ConnectType, DisconnectType } from '@edge-computing/events';
+import { ConnectionType, INACTIVE_CHANNEL } from '@edge-computing/connections';
+import {
+  ConnectedCountProps,
+  ConnectedCountType,
+  ConnectType,
+  DisconnectType,
+  WorkNewProps,
+  WorkNewType,
+} from '@edge-computing/events';
 import http from 'http';
 import socketIO from 'socket.io';
 
@@ -38,11 +45,17 @@ class WebSocketHandler {
   }
 
   private async middleware(socket: SocketIO.Socket, next: (err?: any) => void) {
-    if ('id' in socket.handshake.query) {
+    if (socket.nsp.name === ConnectionType.WORKER || 'id' in socket.handshake.query) {
       return next();
     }
     console.error('Received an invalid WebSocket request.');
     return next(new Error('Request is invalid'));
+  }
+
+  public async onUpload(id: string) {
+    this.io.of(ConnectionType.WORKER).to(INACTIVE_CHANNEL).send(WorkNewType, {
+      id
+    } as WorkNewProps);
   }
 
   private async sendConnectedCount(roomID: string, socket?: SocketIO.Socket) {
@@ -68,10 +81,9 @@ class WebSocketHandler {
   }
 
   private async onWorkerConnect(socket: socketIO.Socket, query: WebSocketQuery) {
-    await this.onConnect(socket, query);
-    socket.join(query.id, () => {
-      this.sendConnectedCount(query.id);
-      console.info(`[${++this.connected}] Worker connected in room ${query.id}`);
+    await this.onConnect(socket, { id: INACTIVE_CHANNEL });
+    socket.join(INACTIVE_CHANNEL, () => {
+      console.info(`[${++this.connected}] New worker connected`);
     });
   }
 

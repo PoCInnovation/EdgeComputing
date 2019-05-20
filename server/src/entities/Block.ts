@@ -35,6 +35,7 @@ export default class Block extends BaseEntity implements BlockInterface {
   @Column({ type: 'blob', nullable: true })
   data!: string;
 
+  @Field(type => Scene)
   @ManyToOne(type => Scene, scene => scene.blocks)
   scene!: Scene;
 };
