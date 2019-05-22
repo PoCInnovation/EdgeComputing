@@ -3,4 +3,4 @@ export const ConnectionType = {
   WORKER: '/worker'
 };
 
-export const INACTIVE_CHANNEL = 'inactive';
+export const INACTIVE_CHANNEL = '/inactive';

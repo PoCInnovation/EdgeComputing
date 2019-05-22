@@ -12,8 +12,8 @@
       "emitDecoratorMetadata": true,
       "experimentalDecorators": true,
       "paths": {
-          "@edge-computing/*": ["../../edge-computing/*"],
-          "*": ["node_modules/*"]
+        "@edge-computing/*": ["../../edge-computing/*"],
+        "*": ["node_modules/*"]
       },
       "lib": [
         "es5",

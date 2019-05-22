@@ -1,3 +1,5 @@
 export const WorkDoneType = 'workDone';
 
-export interface WorkDoneProps {};
+export interface WorkDoneProps {
+  id: string;
+};

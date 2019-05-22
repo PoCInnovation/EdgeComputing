@@ -5,7 +5,10 @@ const TSLintPlugin = require('tslint-webpack-plugin');
 module.exports = {
   entry: './src/',
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.js'],
+    alias: {
+      "@edge-computing": path.resolve(__dirname, '../edge-computing/')
+    }
   },
   output: {
     path: path.join(__dirname, '/dist'),

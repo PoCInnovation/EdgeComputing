@@ -49,7 +49,7 @@ class WebSocketHandler {
   }
 
   private async middleware(socket: SocketIO.Socket, next: (err?: any) => void) {
-    if (!('id' in socket.handshake.query)) {
+    if ('id' in socket.handshake.query) {
       return next();
     }
     console.error('Received an invalid WebSocket request.');
@@ -57,6 +57,7 @@ class WebSocketHandler {
   }
 
   public async onUpload(id: string) {
+    console.info(`[${id}] A new config has been uploaded`);
     this.io.of(ConnectionType.WORKER).to(INACTIVE_CHANNEL).send(WorkNewType, {
       id
     } as WorkNewProps);
@@ -87,8 +88,8 @@ class WebSocketHandler {
   private async onWorkerConnect(socket: socketIO.Socket, query: WebSocketQuery) {
     await this.onConnect(socket, { id: INACTIVE_CHANNEL });
     socket.join(INACTIVE_CHANNEL, () => {
-      this.on(WorkNewType, (socket) => workNew(socket, socket.handshake.query));
-      this.on(WorkDoneType, (socket) => workDone(socket, socket.handshake.query));
+      this.on(WorkNewType, () => workNew(socket, socket.handshake.query));
+      this.on(WorkDoneType, () => workDone(socket));
       console.info(`[${++this.connected}] New worker connected`);
     });
   }

@@ -1,83 +1,90 @@
-import Config from './config/scene.json';
-import { Shape } from './Shapes/Shape';
-import Lambertian from './Materials/Lambertian';
-import Dielectric from './Materials/Dielectric';
-import Metal from './Materials/Metal';
-import Sphere from './Shapes/Sphere';
-import Vector from './Vector';
+import { ConnectionType, INACTIVE_CHANNEL } from '@edge-computing/connections';
+import { WorkDoneProps, WorkDoneType, WorkNewProps, WorkNewType } from '@edge-computing/events';
+import { Socket } from 'socket.io';
+import SocketIO from 'socket.io-client';
+
 import Camera from './Camera';
+import { getNewBlock, updateBlock } from './Client';
+import { BlockQuery } from './Interfaces/BlockQuery';
+import { StatusInterface } from './Interfaces/Status';
+import readScene from './Parser';
 import Scene from './Scene';
-import Color from './Color';
-import MovingSphere from './Shapes/MovingSphere';
+import Vector from './Vector';
+import { workNew } from './websockets';
 
-function randomScene(n: number): Shape[] {
-  const shapes: Shape[] = [
-    new Sphere(new Vector(0, -1000, 0), new Lambertian(new Color(0.5, 0.5, 0.5)), 1000),
-  ];
-  let i = 1;
+const status: StatusInterface = { working: false };
 
-  for (let a = -5; a < 5; a += 1) {
-    for (let b = -5; b < 5; b += 1) {
-      const chooseMath = Math.random();
-      const center = new Vector(a + 0.9 * Math.random(), 0.2, b + 0.9 * Math.random());
+const io = SocketIO(`http://localhost:3000${ConnectionType.WORKER}`, {
+  query: {
+    id: INACTIVE_CHANNEL,
+  },
+});
 
-      if (center.clone().sub(new Vector(4, 0.2, 0)).magnitude() > 0.9) {
-        i += 1;
-        if (chooseMath < 0.8) {
-          const mat = new Lambertian(
-            new Color(Math.random() * Math.random(),
-                      Math.random() * Math.random(),
-                      Math.random() * Math.random()));
-          shapes[i] = new Sphere(center, mat, 0.2);
-        } else if (chooseMath < 0.95) {
-          shapes[i] = new Sphere(center, new Metal(
-            new Color(0.5 * (1 + Math.random()),
-                      0.5 * (1 + Math.random()),
-                      0.5 * (1 + Math.random())),
-            0.5 * (1 + Math.random())),
-                                 0.2);
-        } else {
-          shapes[i] = new Sphere(center, new Dielectric(1.5), 0.2);
-        }
-      }
-    }
-  }
+io.on(WorkNewType, (socket: Socket) => workNew(socket, socket.handshake.query, status));
 
-  shapes[i + 1] = new Sphere(new Vector(0, 1, 0), new Dielectric(1.5), 1);
-  shapes[i + 2] = new Sphere(new Vector(-4, 1, 0), new Lambertian(new Color(0.4, 0.2, 0.1)), 1);
-  shapes[i + 3] = new Sphere(new Vector(4, 1, 0), new Metal(new Color(0.7, 0.6, 0.5), 0), 1);
-  return shapes;
-}
-
-async function main() {
-  const canvas = document.createElement('canvas');
-  const shapes: Shape[] = randomScene(500);
-
-  const lookFrom = new Vector(13, 2, 3);
-  const lookAt = new Vector(0, 0, 0);
-
-  const camera = new Camera(lookFrom, lookAt, new Vector(0, 1, 0),
-                            20, Config.width / Config.height, 0, 10, 0, 1);
-
-  if (canvas == null) {
-    console.error('Failed to create canvas.');
+function startNewScene() {
+  if (status.block === undefined) {
+    console.error('config is invalid');
     return;
   }
 
-  document.title = Config.name;
-  canvas.width = Config.width;
-  canvas.height = Config.height;
-  document.body.appendChild(canvas);
+  const config: any = JSON.parse(status.block.scene.config);
 
-  const scene = new Scene(Config.width, Config.height, Config.depth);
-  const context = canvas.getContext('2d');
+  const from = new Vector(config.camera.from.x, config.camera.from.y, config.camera.from.z);
+  const at = new Vector(config.camera.at.x, config.camera.at.y, config.camera.at.z);
+  const vUp = new Vector(config.camera.vUp.x, config.camera.vUp.y, config.camera.vUp.z);
+  const camera = new Camera(from, at, vUp, config.camera.vFov, config.width / config.height,
+                            config.camera.aperture,
+                            (from.clone().sub(at)).magnitude(), config.camera.t0, config.camera.t1);
 
-  if (context == null) {
-    console.error('Can\'t get the context.');
+  const scene = new Scene(config.width, config.height, config.depth);
+  const shapes = readScene(JSON.parse(status.block.scene.config));
+
+  const canvas = scene.renderBlock(camera, shapes, status.block.x, status.block.y, status.block.size);
+
+  if (canvas === undefined) {
+    console.error('An error occured during rendering');
+  } else {
+    updateBlock({ data: canvas.toDataURL(), id: parseInt(status.block.id.toString(), 10) });
+    console.log('Work is finished!');
+  }
+}
+
+export async function startWorking(): Promise<void> {
+
+  if (status.working) {
     return;
   }
 
-  scene.render(context, camera, shapes);
+  const response = await getNewBlock();
+
+  if (response === undefined || (response.data as BlockQuery).newBlock === null) {
+    console.log('There is no new block');
+    return;
+  }
+
+  status.working = true;
+  status.block = (response.data as BlockQuery).newBlock;
+
+  io.emit(WorkNewType, {
+    id: status.block.id.toString(),
+  } as WorkNewProps);
+
+  console.log('Received new block');
+
+  try {
+    startNewScene();
+  } catch (err) {
+    console.error('An error occured. ', err);
+  }
+
+  io.emit(WorkDoneType, {
+    id: status.block.id.toString(),
+  } as WorkDoneProps);
+
+  status.working = false;
+
+  return startWorking();
 }
 
-main();
+startWorking();

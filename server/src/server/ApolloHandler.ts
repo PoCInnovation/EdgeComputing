@@ -15,7 +15,9 @@ const schema = buildSchemaSync({
 export default (app: Application, context: ContextInterface) => {
   const server = new ApolloServer({
     schema,
-    ...context
+    context: {
+      ...context
+    }
   });
 
   server.applyMiddleware({ app });

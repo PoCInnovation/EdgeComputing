@@ -11,6 +11,7 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
+      "@edge-computing/*": ["../../edge-computing/*"],
       "*": ["./node_modules/*"]
     },
     "lib": [
