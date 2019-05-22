@@ -64,11 +64,21 @@ export async function startWorking(): Promise<void> {
   }
 
   status.working = true;
-  status.block = (response.data as BlockQuery).newBlock;
 
-  io.emit(WorkNewType, {
-    id: status.block.id.toString(),
-  } as WorkNewProps);
+  if (status.block === undefined) {
+    io.emit(WorkNewType, {
+      id: (response.data as BlockQuery).newBlock.scene.id.toString(),
+    } as WorkNewProps);
+  } else if (status.block.scene.id !== (response.data as BlockQuery).newBlock.scene.id) {
+    io.emit(WorkDoneType, {
+      id: status.block.id.toString(),
+    } as WorkDoneProps);
+    io.emit(WorkNewType, {
+      id: (response.data as BlockQuery).newBlock.scene.id.toString(),
+    } as WorkNewProps);
+  }
+
+  status.block = (response.data as BlockQuery).newBlock;
 
   console.log('Received new block');
 
@@ -78,13 +88,9 @@ export async function startWorking(): Promise<void> {
     console.error('An error occured. ', err);
   }
 
-  io.emit(WorkDoneType, {
-    id: status.block.id.toString(),
-  } as WorkDoneProps);
-
   status.working = false;
 
   return startWorking();
 }
 
-startWorking();
+setInterval(startWorking, 10000);

@@ -11,6 +11,8 @@ import Server from './server';
 
 useContainer(Container);
 
+// process.setMaxListeners(0);
+
 createConnection().then(async connection => {
   const server = new Server();
 

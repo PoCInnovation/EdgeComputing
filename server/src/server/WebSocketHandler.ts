@@ -88,8 +88,20 @@ class WebSocketHandler {
   private async onWorkerConnect(socket: socketIO.Socket, query: WebSocketQuery) {
     await this.onConnect(socket, { id: INACTIVE_CHANNEL });
     socket.join(INACTIVE_CHANNEL, () => {
-      this.on(WorkNewType, () => workNew(socket, socket.handshake.query));
-      this.on(WorkDoneType, () => workDone(socket));
+      this.on(WorkNewType, () => {
+        workNew(socket, socket.handshake.query);
+        this.sendConnectedCount(socket.handshake.query.id);
+        socket.on(DisconnectType, () =>
+          this.onDisconnect(socket.handshake.query.id, socket.nsp.name)
+        );
+      });
+      this.on(WorkDoneType, () => {
+        workDone(socket);
+        this.sendConnectedCount(socket.handshake.query.id);
+        socket.on(DisconnectType, () =>
+          this.onDisconnect(socket.handshake.query.id, socket.nsp.name)
+        );
+      });
       console.info(`[${++this.connected}] New worker connected`);
     });
   }

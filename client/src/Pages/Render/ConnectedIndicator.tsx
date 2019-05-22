@@ -28,7 +28,7 @@ export class ConnectedIndicator extends React.Component<ConnectedIndicatorProps,
   }
 
   componentWillMount() {
-    const io = connect(ConnectionType.WORKER, {
+    const io = connect(ConnectionType.CLIENT, {
       query: {
         id: this.props.id
       }
@@ -47,6 +47,6 @@ export class ConnectedIndicator extends React.Component<ConnectedIndicatorProps,
   render() {
     return (
       <h6>Connected: {this.state.numberOfConnected}</h6>
-    )
+    );
   }
 };
