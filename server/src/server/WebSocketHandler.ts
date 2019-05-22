@@ -4,11 +4,15 @@ import {
   ConnectedCountType,
   ConnectType,
   DisconnectType,
+  WorkDoneType,
   WorkNewProps,
   WorkNewType,
 } from '@edge-computing/events';
 import http from 'http';
 import socketIO from 'socket.io';
+
+import { workDone } from './websockets/workDone';
+import { workNew } from './websockets/workNew';
 
 type WSMethodHandler = (socket: SocketIO.Socket) => void;
 
@@ -45,7 +49,7 @@ class WebSocketHandler {
   }
 
   private async middleware(socket: SocketIO.Socket, next: (err?: any) => void) {
-    if (socket.nsp.name === ConnectionType.WORKER || 'id' in socket.handshake.query) {
+    if (!('id' in socket.handshake.query)) {
       return next();
     }
     console.error('Received an invalid WebSocket request.');
@@ -83,6 +87,8 @@ class WebSocketHandler {
   private async onWorkerConnect(socket: socketIO.Socket, query: WebSocketQuery) {
     await this.onConnect(socket, { id: INACTIVE_CHANNEL });
     socket.join(INACTIVE_CHANNEL, () => {
+      this.on(WorkNewType, (socket) => workNew(socket, socket.handshake.query));
+      this.on(WorkDoneType, (socket) => workDone(socket, socket.handshake.query));
       console.info(`[${++this.connected}] New worker connected`);
     });
   }
