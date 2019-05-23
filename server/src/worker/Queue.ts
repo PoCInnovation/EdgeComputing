@@ -16,7 +16,7 @@ Queue.process(QueueTypes.NEW_IMAGE, async (job: any, done: Function) => {
   try {
     await newImage(job.data);
   } catch (err) {
-    console.error('An error occured while processing image.', err);
+    console.error('An error occured while processing image.');
   }
 
   done();

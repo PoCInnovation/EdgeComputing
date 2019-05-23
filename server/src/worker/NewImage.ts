@@ -20,12 +20,15 @@ export const newImage = async ({ blockID }: newImageProps) => {
     return;
   }
 
+  console.log('Processing block', block.id, 'x:', block.x, 'y:', block.y);
+
   const canvas = createCanvas(block.scene.width, block.scene.height);
   const ctx = canvas.getContext('2d');
   const imageFile = path.join(Config.FILES_DIR, block.scene.image);
 
   await loadImage(imageFile)
-    .then(image => ctx.drawImage(image, 0, 0));
+    .then(image => ctx.drawImage(image, 0, 0, block.scene.width, block.scene.height))
+    .catch(() => console.debug('Base image does not exist'));
 
   await loadImage(block.data).then(image => {
     ctx.drawImage(image, block.x, block.y, block.size, block.size);
