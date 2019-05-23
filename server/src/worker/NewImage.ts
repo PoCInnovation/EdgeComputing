@@ -31,7 +31,7 @@ export const newImage = async ({ blockID }: newImageProps) => {
     .catch(() => console.debug('Base image does not exist'));
 
   await loadImage(block.data).then(image => {
-    ctx.drawImage(image, block.x, block.y, block.size, block.size);
+    ctx.drawImage(image, block.x, block.scene.height - block.y - block.size, block.size, block.size);
     fs.writeFileSync(imageFile, canvas.toBuffer());
   });
 };

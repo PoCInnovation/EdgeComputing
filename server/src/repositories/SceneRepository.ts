@@ -30,7 +30,6 @@ export default class SceneRepository extends Repository<Scene> {
 
 
     for (let i = 0; i < scenes.length; i++) {
-      console.log(scenes[i].blocks[0].id);
       if (scenes[i].blocks.length === 0) {
         const newBlock = new Block();
         newBlock.size = BLOCK_SIZE;
@@ -39,9 +38,9 @@ export default class SceneRepository extends Repository<Scene> {
         newBlock.scene = scenes[i];
         return newBlock.save();
       } else {
+
         scenes[i].blocks.sort((a, b) => b.id - a.id);
         const lastBlock = scenes[i].blocks[0];
-        console.log('LastBlock is:', lastBlock.id, 'x:', lastBlock.x, 'y:', lastBlock.y);
 
         if (lastBlock.x + lastBlock.size < scenes[i].width || lastBlock.y + lastBlock.size < scenes[i].height) {
           const newBlock = new Block();

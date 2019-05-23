@@ -12,6 +12,6 @@ RUN apt-get update && apt-get install -y \
 ADD server /app/server
 ADD edge-computing /app/edge-computing
 
-RUN yarn install --force
+RUN yarn install
 
 CMD ["yarn", "start"]

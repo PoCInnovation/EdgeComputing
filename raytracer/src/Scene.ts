@@ -10,7 +10,7 @@ export default class Scene {
   public readonly depth: number;
   private x = 0;
   private y = 0;
-  private range = 20;
+  private range = 200;
 
   constructor(width: number, height: number, depth: number) {
     this.width = width;
@@ -91,8 +91,8 @@ export default class Scene {
       return undefined;
     }
 
-    for (let y = 0; y < size && y < this.height; y += 1) {
-      for (let x = 0; x < size && x < this.width; x += 1) {
+    for (let y = 0; y <= size && blockY + y < this.height; y += 1) {
+      for (let x = 0; x < size && blockX + x < this.width; x += 1) {
         const col = new Color(0, 0, 0);
 
         for (let z = 0; z < this.depth; z += 1) {
