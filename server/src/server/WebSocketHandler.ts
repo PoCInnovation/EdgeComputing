@@ -4,6 +4,7 @@ import {
   ConnectedCountType,
   ConnectType,
   DisconnectType,
+  WorkDoneProps,
   WorkDoneType,
   WorkNewProps,
   WorkNewType,
@@ -24,6 +25,8 @@ interface WSMethods {
 interface WebSocketQuery {
   id: string;
 };
+
+let clients: {[key: string]: string} = {};
 
 class WebSocketHandler {
   private readonly io: SocketIO.Server;
@@ -88,19 +91,17 @@ class WebSocketHandler {
   private async onWorkerConnect(socket: socketIO.Socket, query: WebSocketQuery) {
     await this.onConnect(socket, { id: INACTIVE_CHANNEL });
     socket.join(INACTIVE_CHANNEL, () => {
-      this.on(WorkNewType, () => {
-        workNew(socket, socket.handshake.query);
-        this.sendConnectedCount(socket.handshake.query.id);
-        socket.on(DisconnectType, () =>
-          this.onDisconnect(socket.handshake.query.id, socket.nsp.name)
-        );
+      clients[socket.id] = INACTIVE_CHANNEL;
+
+      socket.on(WorkNewType, (data: WorkNewProps) => {
+        workNew(socket, data);
+        clients[socket.id] = data.id;
+        this.sendConnectedCount(data.id);
       });
-      this.on(WorkDoneType, () => {
+      socket.on(WorkDoneType, (data: WorkDoneProps) => {
         workDone(socket);
-        this.sendConnectedCount(socket.handshake.query.id);
-        socket.on(DisconnectType, () =>
-          this.onDisconnect(socket.handshake.query.id, socket.nsp.name)
-        );
+        clients[socket.id] = INACTIVE_CHANNEL;
+        this.sendConnectedCount(data.id);
       });
       console.info(`[${++this.connected}] New worker connected`);
     });
@@ -109,7 +110,7 @@ class WebSocketHandler {
   private async onConnect(socket: socketIO.Socket, query: WebSocketQuery) {
     socket.leaveAll();
     socket.on(DisconnectType, () =>
-      this.onDisconnect(query.id, socket.nsp.name)
+      this.onDisconnect(socket)
     );
 
     this.handlers.map((handler) => {
@@ -121,11 +122,12 @@ class WebSocketHandler {
     });
   }
 
-  private async onDisconnect(roomID: string, namespace: string) {
-    if (namespace === ConnectionType.WORKER) {
-      this.sendConnectedCount(roomID);
+  private async onDisconnect(socket: SocketIO.Socket) {
+    if (socket.nsp.name === ConnectionType.WORKER && clients[socket.id] !== undefined) {
+      this.sendConnectedCount(clients[socket.id]);
+      delete clients[socket.id];
     }
-    console.info(`[${--this.connected}] ${namespace} disconnected`);
+    console.info(`[${--this.connected}] disconnected`);
   }
 };
 

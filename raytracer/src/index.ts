@@ -1,11 +1,10 @@
 import { ConnectionType, INACTIVE_CHANNEL } from '@edge-computing/connections';
-import { WorkDoneProps, WorkDoneType, WorkNewProps, WorkNewType } from '@edge-computing/events';
+import { WorkNewType } from '@edge-computing/events';
 import { Socket } from 'socket.io';
 import SocketIO from 'socket.io-client';
 
 import Camera from './Camera';
-import { getNewBlock, updateBlock } from './Client';
-import { BlockQuery } from './Interfaces/BlockQuery';
+import { updateBlock } from './Client';
 import { StatusInterface } from './Interfaces/Status';
 import readScene from './Parser';
 import Scene from './Scene';
@@ -50,47 +49,52 @@ function startNewScene() {
   }
 }
 
-export async function startWorking(): Promise<void> {
-
+export function startWorking() {
   if (status.working) {
     return;
   }
 
-  const response = await getNewBlock();
+  io.emit(WorkNewType, { id: '123' });
+  console.error('Sent event!');
+  return;
 
-  if (response === undefined || (response.data as BlockQuery).newBlock === null) {
-    console.log('There is no new block');
-    return;
-  }
+  // const response = await getNewBlock();
 
-  status.working = true;
+  // if (response === undefined || (response.data as BlockQuery).newBlock === null) {
+  //   console.log('There is no new block');
+  //   return;
+  // }
 
-  if (status.block === undefined) {
-    io.emit(WorkNewType, {
-      id: (response.data as BlockQuery).newBlock.scene.id.toString(),
-    } as WorkNewProps);
-  } else if (status.block.scene.id !== (response.data as BlockQuery).newBlock.scene.id) {
-    io.emit(WorkDoneType, {
-      id: status.block.id.toString(),
-    } as WorkDoneProps);
-    io.emit(WorkNewType, {
-      id: (response.data as BlockQuery).newBlock.scene.id.toString(),
-    } as WorkNewProps);
-  }
+  // status.working = true;
 
-  status.block = (response.data as BlockQuery).newBlock;
+  // if (status.block === undefined) {
+  //   io.emit(WorkNewType, {
+  //     id: (response.data as BlockQuery).newBlock.scene.id.toString(),
+  //   } as WorkNewProps);
+  // } else if (status.block.scene.id !== (response.data as BlockQuery).newBlock.scene.id) {
+  //   io.emit(WorkDoneType, {
+  //     id: status.block.id.toString(),
+  //   } as WorkDoneProps);
+  //   io.emit(WorkNewType, {
+  //     id: (response.data as BlockQuery).newBlock.scene.id.toString(),
+  //   } as WorkNewProps);
+  // }
 
-  console.log('Received new block');
+  // status.block = (response.data as BlockQuery).newBlock;
 
-  try {
-    startNewScene();
-  } catch (err) {
-    console.error('An error occured. ', err);
-  }
+  // console.log('Received new block');
 
-  status.working = false;
+  // try {
+  //   startNewScene();
+  // } catch (err) {
+  //   console.error('An error occured. ', err);
+  // }
 
-  return startWorking();
+  // status.working = false;
+
+  // return startWorking();
 }
 
 setInterval(startWorking, 10000);
+
+startWorking();

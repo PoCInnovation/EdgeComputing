@@ -1,3 +1,3 @@
 export interface ContextInterface {
-  onUpload(id: string): any;
+  onUpload(id: string): unknown;
 };
