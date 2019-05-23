@@ -10,7 +10,6 @@ services:
       - "3000:3000"
     volumes:
       - ./server:/app/server
-      - node_modules:/app/server/node_modules
     restart: always
     # environment:
     #   DB_HOST: postgres
@@ -38,6 +37,5 @@ services:
   #     POSTGRESQL_DATABASE: edgecomputing
 
 volumes:
-  node_modules:
   redis-data:
   # postgres-data:

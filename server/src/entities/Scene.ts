@@ -1,7 +1,17 @@
 import { SceneInterface } from '@edge-computing/interfaces';
 import { Field, ID, Int, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BaseEntity,
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
+import { GenerateFileName } from '../utils/FileName';
 import Block from './Block';
 
 @Entity()
@@ -34,6 +44,10 @@ export default class Scene extends BaseEntity implements SceneInterface {
   @OneToMany(type => Block, block => block.scene)
   blocks!: Block[];
 
+  @Field(type => String)
+  @Column({ unique: true })
+  image!: string;
+
   @Field(type => Date)
   @CreateDateColumn({type: 'datetime'})
   createdAt!: Date;
@@ -41,4 +55,11 @@ export default class Scene extends BaseEntity implements SceneInterface {
   @Field(type => Date)
   @UpdateDateColumn({type: 'datetime'})
   updatedAt!: Date;
+
+  @BeforeInsert()
+  createImage() {
+    if (this.image === undefined) {
+      this.image = GenerateFileName('png');
+    }
+  }
 };

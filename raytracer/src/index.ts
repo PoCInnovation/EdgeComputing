@@ -14,7 +14,7 @@ import { workNew } from './websockets';
 
 const status: StatusInterface = { working: false };
 
-const io = SocketIO(`http://localhost:3000${ConnectionType.WORKER}`, {
+const io = SocketIO(`http://10.102.188.222:3000${ConnectionType.WORKER}`, {
   query: {
     id: INACTIVE_CHANNEL,
   },

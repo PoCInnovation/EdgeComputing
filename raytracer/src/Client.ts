@@ -1,7 +1,7 @@
 import { createApolloFetch } from 'apollo-fetch';
 
 const fetch = createApolloFetch({
-  uri: 'http://127.0.0.1:3000/graphql',
+  uri: 'http://10.102.188.222:3000/graphql',
 });
 
 const NEW_BLOCK_QUERY = `

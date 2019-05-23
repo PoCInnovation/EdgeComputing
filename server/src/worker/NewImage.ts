@@ -1,6 +1,8 @@
 import { createCanvas, loadImage } from 'canvas';
 import fs from 'fs';
+import path from 'path';
 
+import Config from '../config';
 import Block from '../entities/Block';
 
 export interface newImageProps {
@@ -20,9 +22,13 @@ export const newImage = async ({ blockID }: newImageProps) => {
 
   const canvas = createCanvas(block.scene.width, block.scene.height);
   const ctx = canvas.getContext('2d');
+  const imageFile = path.join(Config.FILES_DIR, block.scene.image);
 
-  loadImage(block.data).then(image => {
+  await loadImage(imageFile)
+    .then(image => ctx.drawImage(image, 0, 0));
+
+  await loadImage(block.data).then(image => {
     ctx.drawImage(image, block.x, block.y, block.size, block.size);
-    fs.writeFileSync('./test.png', canvas.toBuffer());
+    fs.writeFileSync(imageFile, canvas.toBuffer());
   });
 };

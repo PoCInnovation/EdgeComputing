@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://127.0.0.1:3000",
+  "proxy": "http://10.102.188.222:3000/",
   "dependencies": {
     "@types/jest": "24.0.12",
     "@types/node": "12.0.0",
@@ -15,6 +15,7 @@
     "react": "^16.8.6",
     "react-apollo": "^2.5.5",
     "react-dom": "^16.8.6",
+    "react-modal": "^3.8.1",
     "react-pose": "^4.0.8",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
@@ -45,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-modal": "^3.8.2",
     "@types/react-router-dom": "^4.3.3",
     "@types/rebass": "^3.0.3",
     "@types/socket.io-client": "^1.4.32",

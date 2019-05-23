@@ -13,7 +13,12 @@ const Queue = kue.createQueue({
 });
 
 Queue.process(QueueTypes.NEW_IMAGE, async (job: any, done: Function) => {
-  await newImage(job.data);
+  try {
+    await newImage(job.data);
+  } catch (err) {
+    console.error('An error occured while processing image.', err);
+  }
+
   done();
 });
 

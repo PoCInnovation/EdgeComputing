@@ -56,7 +56,7 @@ export default class BlockResolver {
       .attempts(3)
       .save((err: any) => err && console.error('An error occured while sending job.', err));
 
-    Queue.on('error', (err) => console.error('An error occured with queue.', err));
+    Queue.on('error', (err) => console.error('An error occured with job.', err));
 
     console.debug('Sent queue task');
 
