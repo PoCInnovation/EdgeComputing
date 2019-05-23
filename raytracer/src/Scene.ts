@@ -82,7 +82,7 @@ export default class Scene {
     canvas.height = size;
     canvas.width = size;
     document.body.appendChild(canvas);
-    // canvas.hidden = true;
+    canvas.hidden = true;
 
     const context = canvas.getContext('2d');
 

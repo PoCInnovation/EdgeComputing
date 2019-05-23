@@ -1,10 +1,11 @@
 import { ConnectionType, INACTIVE_CHANNEL } from '@edge-computing/connections';
-import { WorkNewType } from '@edge-computing/events';
+import { WorkDoneProps, WorkDoneType, WorkNewProps, WorkNewType } from '@edge-computing/events';
 import { Socket } from 'socket.io';
 import SocketIO from 'socket.io-client';
 
 import Camera from './Camera';
-import { updateBlock } from './Client';
+import { getNewBlock, updateBlock } from './Client';
+import { BlockQuery } from './Interfaces/BlockQuery';
 import { StatusInterface } from './Interfaces/Status';
 import readScene from './Parser';
 import Scene from './Scene';
@@ -45,54 +46,55 @@ function startNewScene() {
     console.error('An error occured during rendering');
   } else {
     updateBlock({ data: canvas.toDataURL(), id: parseInt(status.block.id.toString(), 10) });
+
+    canvas.remove();
+
     console.log('Work is finished!');
   }
 }
 
-export function startWorking() {
+export async function startWorking(): Promise<void> {
   if (status.working) {
     return;
   }
 
-  io.emit(WorkNewType, { id: '123' });
-  console.error('Sent event!');
-  return;
+  const response = await getNewBlock();
 
-  // const response = await getNewBlock();
+  if (response === undefined || (response.data as BlockQuery).newBlock === null) {
+    console.log('There is no new block');
+    return;
+  }
 
-  // if (response === undefined || (response.data as BlockQuery).newBlock === null) {
-  //   console.log('There is no new block');
-  //   return;
-  // }
+  status.working = true;
 
-  // status.working = true;
+  const newBlock = (response.data as BlockQuery).newBlock;
 
-  // if (status.block === undefined) {
-  //   io.emit(WorkNewType, {
-  //     id: (response.data as BlockQuery).newBlock.scene.id.toString(),
-  //   } as WorkNewProps);
-  // } else if (status.block.scene.id !== (response.data as BlockQuery).newBlock.scene.id) {
-  //   io.emit(WorkDoneType, {
-  //     id: status.block.id.toString(),
-  //   } as WorkDoneProps);
-  //   io.emit(WorkNewType, {
-  //     id: (response.data as BlockQuery).newBlock.scene.id.toString(),
-  //   } as WorkNewProps);
-  // }
+  if (status.block === undefined) {
+    io.emit(WorkNewType, {
+      id: newBlock.scene.id.toString(),
+    } as WorkNewProps);
+  } else if (status.block.scene.id !== newBlock.scene.id) {
+    io.emit(WorkDoneType, {
+      id: status.block.id.toString(),
+    } as WorkDoneProps);
+    io.emit(WorkNewType, {
+      id: newBlock.scene.id.toString(),
+    } as WorkNewProps);
+  }
 
-  // status.block = (response.data as BlockQuery).newBlock;
+  status.block = newBlock;
 
-  // console.log('Received new block');
+  console.log('Received new block');
 
-  // try {
-  //   startNewScene();
-  // } catch (err) {
-  //   console.error('An error occured. ', err);
-  // }
+  try {
+    startNewScene();
+  } catch (err) {
+    console.error('An error occured:', err);
+  }
 
-  // status.working = false;
+  status.working = false;
 
-  // return startWorking();
+  return startWorking();
 }
 
 setInterval(startWorking, 10000);

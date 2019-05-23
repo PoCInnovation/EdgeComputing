@@ -12,6 +12,7 @@ query {
     y
     size
     scene {
+      id
       config
     }
   }

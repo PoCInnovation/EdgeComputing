@@ -5,6 +5,8 @@ import { InjectRepository } from 'typeorm-typedi-extensions';
 import Block from '../entities/Block';
 import BlockRepository from '../repositories/BlockRepository';
 import SceneRepository from '../repositories/SceneRepository';
+import { newImageProps } from '../worker/NewImage';
+import { Queue, QueueTypes } from '../worker/Queue';
 
 @Resolver(of => Block)
 export default class BlockResolver {
@@ -49,6 +51,14 @@ export default class BlockResolver {
       block.scene.isFinished = true;
       await block.scene.save();
     }
+
+    Queue.createJob(QueueTypes.NEW_IMAGE, { blockID: block.id } as newImageProps)
+      .attempts(3)
+      .save((err: any) => err && console.error('An error occured while sending job.', err));
+
+    Queue.on('error', (err) => console.error('An error occured with queue.', err));
+
+    console.debug('Sent queue task');
 
     return this.repository.save(block);
   }
