@@ -3,11 +3,14 @@ import { EntityRepository, getCustomRepository, Repository } from 'typeorm';
 
 import Block from '../entities/Block';
 import Scene from '../entities/Scene';
+import { sleep } from '../utils/Sleep';
 import BlockRepository from './BlockRepository';
+
 
 @EntityRepository(Scene)
 export default class SceneRepository extends Repository<Scene> {
   private readonly blockRepository: BlockRepository;
+  private searching: boolean = false;
 
   constructor() {
     super();
@@ -15,9 +18,16 @@ export default class SceneRepository extends Repository<Scene> {
   };
 
   async getNewBlock() {
+
+    while (this.searching) {
+      await sleep(50);
+    }
+
+    this.searching = true;
     const freeBlock = await this.blockRepository.getFreeBlock();
 
     if (freeBlock !== undefined) {
+      this.searching = false;
       return freeBlock.save();
     }
 
@@ -36,6 +46,8 @@ export default class SceneRepository extends Repository<Scene> {
         newBlock.x = 0;
         newBlock.y = 0;
         newBlock.scene = scenes[i];
+
+        this.searching = false;
         return newBlock.save();
       } else {
 
@@ -52,11 +64,14 @@ export default class SceneRepository extends Repository<Scene> {
             newBlock.y += lastBlock.size;
           }
           newBlock.scene = scenes[i];
+
+          this.searching = false;
           return newBlock.save();
         }
       }
     }
 
+    this.searching = false;
     return undefined;
   }
 };

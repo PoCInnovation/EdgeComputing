@@ -10,4 +10,5 @@ export interface SceneInterface {
   blocks: BlockInterface[];
   createdAt: Date;
   updatedAt: Date;
+  image: string;
 };

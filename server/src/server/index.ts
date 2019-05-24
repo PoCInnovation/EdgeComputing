@@ -18,7 +18,8 @@ class HTTPServer {
     this.app.use(bodyParser.json({ limit: '2mb' }));
 
     ApolloHandler(this.app, {
-      onUpload: (id: string) => this.wsHandler.onUpload(id)
+      onUpload: (id: string) => this.wsHandler.onUpload(id),
+      onWorkDone: (id: string) => this.wsHandler.onWorkDone(id)
     });
   }
 

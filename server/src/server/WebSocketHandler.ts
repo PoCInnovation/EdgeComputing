@@ -66,6 +66,13 @@ class WebSocketHandler {
     } as WorkNewProps);
   }
 
+  public async onWorkDone(id: string) {
+    console.info(`[${id}] A new block is now finished`);
+    this.io.of(ConnectionType.CLIENT).to(id).emit(WorkDoneType, {
+      id
+    } as WorkDoneProps);
+  }
+
   private async sendConnectedCount(roomID: string, socket?: SocketIO.Socket) {
     const room = this.io.of(ConnectionType.WORKER).adapter.rooms[roomID];
     const params: ConnectedCountProps = {

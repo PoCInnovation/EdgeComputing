@@ -1,8 +1,9 @@
 import { ApolloError } from 'apollo-server-express';
-import { Arg, Int, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from 'type-graphql';
 import { InjectRepository } from 'typeorm-typedi-extensions';
 
 import Block from '../entities/Block';
+import { ContextInterface } from '../interfaces/Context';
 import BlockRepository from '../repositories/BlockRepository';
 import SceneRepository from '../repositories/SceneRepository';
 import { newImageProps } from '../worker/NewImage';
@@ -38,7 +39,7 @@ export default class BlockResolver {
   }
 
   @Mutation(returns => Block)
-  async updateBlock(@Arg('id', type => Int) id: number, @Arg('data') data: string) {
+  async updateBlock(@Arg('id', type => Int) id: number, @Arg('data') data: string, @Ctx() { onWorkDone }: ContextInterface) {
     const block = await this.repository.findOne(id, { relations: ['scene'] });
 
     if (block === undefined) {
@@ -52,13 +53,10 @@ export default class BlockResolver {
       await block.scene.save();
     }
 
-    Queue.createJob(QueueTypes.NEW_IMAGE, { blockID: block.id } as newImageProps)
+    Queue.createJob(QueueTypes.NEW_IMAGE, { blockID: block.id, onWorkDone } as newImageProps)
       .attempts(3)
-      .save((err: any) => err && console.error('An error occured while sending job.', err));
-
-    Queue.on('error', (err) => console.error('An error occured with job.', err));
-
-    console.debug('Sent queue task');
+      .save((err: any) => err && console.error('An error occured while sending job.', err))
+      .on('complete', () => onWorkDone(block.scene.id.toString()));
 
     return this.repository.save(block);
   }

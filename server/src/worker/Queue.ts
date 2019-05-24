@@ -22,4 +22,6 @@ Queue.process(QueueTypes.NEW_IMAGE, async (job: any, done: Function) => {
   done();
 });
 
+Queue.on('error', (err) => console.error('An error occured with job.', err));
+
 export { Queue };

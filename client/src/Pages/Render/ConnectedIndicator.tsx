@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'socket.io-client';
 
 import { ConnectionType } from '../../edge-computing/connections';
-import { ConnectedCountType } from '../../edge-computing/events';
+import { ConnectedCountType, WorkDoneType } from '../../edge-computing/events';
 
 interface ConnectedIndicatorProps {
   id: string;
+  update: Function;
 };
 
 interface ConnectedIndicatorState {
@@ -38,6 +39,8 @@ export class ConnectedIndicator extends React.Component<ConnectedIndicatorProps,
     this.setState({
       onDisconnect: () => io.disconnect()
     });
+
+    io.on(WorkDoneType, () => this.props.update());
   }
 
   componentWillUnmount() {

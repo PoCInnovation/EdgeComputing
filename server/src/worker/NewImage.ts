@@ -7,6 +7,7 @@ import Block from '../entities/Block';
 
 export interface newImageProps {
   blockID: number;
+  onWorkDone(id: string): unknown;
 };
 
 export const newImage = async ({ blockID }: newImageProps) => {
