@@ -10,7 +10,7 @@ import BlockRepository from './BlockRepository';
 @EntityRepository(Scene)
 export default class SceneRepository extends Repository<Scene> {
   private readonly blockRepository: BlockRepository;
-  private searching: boolean = false;
+  private searching = false;
 
   constructor() {
     super();
@@ -37,7 +37,6 @@ export default class SceneRepository extends Repository<Scene> {
       },
       relations: ['blocks']
     });
-
 
     for (let i = 0; i < scenes.length; i++) {
       if (scenes[i].blocks.length === 0) {

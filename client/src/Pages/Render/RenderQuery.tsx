@@ -31,6 +31,7 @@ export class RenderQuery extends React.Component<RenderProps & QueryInterface & 
       <Config id={Number(id)} />
       <ConnectedIndicator id={id} update={() => this.update()} />
       <img
+        alt={scene.name}
         src={`/files/${scene.image}?count=${this.state.count}`}
         width={1280}
         height={720}

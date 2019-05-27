@@ -1,4 +1,6 @@
 import { SceneInterface } from '@edge-computing/interfaces';
+import fs from 'fs';
+import path from 'path';
 import { Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   BaseEntity,
@@ -11,6 +13,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+import Config from '../config';
 import { GenerateFileName } from '../utils/FileName';
 import Block from './Block';
 
@@ -60,6 +63,9 @@ export default class Scene extends BaseEntity implements SceneInterface {
   createImage() {
     if (this.image === undefined) {
       this.image = GenerateFileName('png');
+      fs.writeFile(path.join(Config.FILES_DIR, this.image), '', err =>
+        err !== undefined && console.error('Error while writing file.', err)
+      );
     }
   }
 };

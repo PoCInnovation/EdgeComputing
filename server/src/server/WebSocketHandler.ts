@@ -74,9 +74,10 @@ class WebSocketHandler {
   }
 
   private async sendConnectedCount(roomID: string, socket?: SocketIO.Socket) {
-    const room = this.io.of(ConnectionType.WORKER).adapter.rooms[roomID];
+    const room = this.io.of(ConnectionType.WORKER).to(roomID);
+
     const params: ConnectedCountProps = {
-      count: room !== undefined ? room.length : 0
+      count: room === undefined ? 0 : Object.keys(room.sockets).length
     };
 
     if (socket !== undefined) {

@@ -58,6 +58,8 @@ export default class BlockResolver {
       .save((err: any) => err && console.error('An error occured while sending job.', err))
       .on('complete', () => onWorkDone(block.scene.id.toString()));
 
+    console.debug('Received new block');
+
     return this.repository.save(block);
   }
 };

@@ -20,7 +20,7 @@ export const RenderQuery: React.FC<RenderSceneProps> = ({ scenes }) => (
       {scenes.sort((a, b) => b.id - a.id).map((scene, i) => (
         <Link key={i} to={`/render/${scene.id}`} style={{color: 'inherit', textDecoration: 'none'}}>
           <StyledBox isFinished={scene.isFinished}>
-            {/* <img alt={scene.name} src={scene.url} style={{width: '100%', height: '10rem', objectFit: 'cover'}} /> */}
+            {/* <img alt={scene.name} src={`/files/${scene.image}`} style={{width: '100%', height: '10rem', objectFit: 'cover'}} /> */}
             <Box p='1rem' mx='0' style={{textAlign: 'start', minHeight: '12rem', minWidth: '20rem'}}>
               <h5 style={{color: 'white'}}>{ scene.name }</h5>
               <h6 style={{fontWeight: 'normal'}}>{moment.duration(moment(scene.createdAt).minutes() - 60, 'minutes').humanize(true)}</h6>
