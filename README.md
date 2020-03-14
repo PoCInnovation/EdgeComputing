@@ -11,12 +11,10 @@ The architecture is quite simple. We have a main server which receive the asked 
 The server goal is to split the scene into different parts and ask each client to render a part of this scene which can be of a different size depending the capacity of the client,  
 as you can imagine a mobile won't render a part of the scene as fast as a desktop computer.
 
-
 Here is a schema with a main scene and how the scene is divided among clients.
 In reality it's a bit more complex than that but it's more easily understandable.
 
 ![server](.github/images/Server.png)
-
 
 ## Example
 
@@ -25,6 +23,7 @@ Here is an example scene:
 
 In first instance we do provide some information about the global scene (width, height, quality...),
 then about the camera (view, angle...) and finally the objects we want to render.
+
 ```json
 {
     "name": "RayTracer",
@@ -72,6 +71,8 @@ then about the camera (view, angle...) and finally the objects we want to render
         ....
 ```
 
+The full scene code is available [here](raytracer/src/config/scene.json):
+
 Each object has some properties (reflection, material, size, position...).
 
 Material must be `Dielectric`, `Lambertian` or `Metal`.
@@ -80,6 +81,4 @@ The full list is available [here](raytracer/src/Materials).
 ![Textures](.github/images/Textures.png)
 
 From left to right: `Dielectric`, `Lambertian` and `Metal`.
-
-You can find some further examples in the [example folder](raytracer/src/config).
 
