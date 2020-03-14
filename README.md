@@ -93,3 +93,4 @@ From left to right: `Dielectric`, `Lambertian` and `Metal`.
 You can find some further examples in the [example folder](raytracer/src/config).  
 You can also see the different creation states of the ray tracing algorithm in the [ray tracer folder](raytracer)
 
+![Random generated scene HD](https://cdn.discordapp.com/attachments/553271868115910656/573186183136411648/hd_render.png)
