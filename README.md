@@ -114,4 +114,4 @@ And the worker is accessible at: http://127.0.0.1:5000/
 This project has been realized by POC R&D center members:
 - [Antoine Ordonez - shellbear](https://github.com/shellbear)
 - [Yann Sainson - byfuury](https://github.com/byfuury)
-- Victor Neuret - victorneuret](https://github.com/victorneuret)
+- [Victor Neuret - victorneuret](https://github.com/victorneuret)
