@@ -1,4 +1,4 @@
-FROM node:11
+FROM node:12
 
 WORKDIR /app/server
 
@@ -9,9 +9,12 @@ RUN apt-get update && apt-get install -y \
   libjpeg-dev libgif-dev \
   librsvg2-dev
 
-ADD server /app/server
-ADD edge-computing /app/edge-computing
+ADD server/package*.json ./
+ADD server/yarn.lock ./
 
 RUN yarn install
+
+ADD server/ ./
+ADD edge-computing /app/edge-computing
 
 CMD ["yarn", "start"]

@@ -1,26 +1,26 @@
 {
   "compilerOptions": {
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "target": "es6",
-      "noImplicitAny": true,
-      "strict": true,
-      "moduleResolution": "node",
-      "sourceMap": true,
-      "outDir": "./dist",
-      "baseUrl": "./src/",
-      "emitDecoratorMetadata": true,
-      "experimentalDecorators": true,
-      "paths": {
-        "@edge-computing/*": ["../../edge-computing/*"],
-        "*": ["node_modules/*"]
-      },
-      "lib": [
-        "es5",
-        "es6"
-     ],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "noImplicitAny": true,
+    "strict": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./src/",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@edge-computing/*": ["../../edge-computing/*"]
+    },
+    "lib": [
+      "es5",
+      "es6"
+    ]
   },
   "include": [
-      "src/**/*"
+    "src/**/*",
+    "../edge-computing/**/*"
   ]
 }

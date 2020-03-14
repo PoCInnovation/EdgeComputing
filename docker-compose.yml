@@ -4,20 +4,31 @@ services:
   app:
     build: .
     depends_on:
-      # - postgres
+      - postgres
       - redis
     ports:
-      - "3000:3000"
+      - "5000:3000"
+    environment:
+      DB_HOST: postgres
+      DB_NAME: edgecomputing
+      DB_USER: edgecomputing
+      DB_PASS: edgecomputing
+
+  worker:
+    build: ./raytracer
+    depends_on:
+      - app
+    ports:
+      - "9000:9000"
     volumes:
-      - ./server:/app/server
-    restart: always
-    # environment:
-    #   DB_HOST: postgres
-    #   DB_NAME: edgecomputing
-    #   DB_USER: edgecomputing
-    #   DB_PASS: edgecomputing
-    expose:
-      - 3000
+      - "./edge-computing:/edge-computing"
+
+  client:
+    build: ./client
+    depends_on:
+      - app
+    ports:
+      - "3000:80"
 
   redis:
     image: redis
@@ -26,16 +37,18 @@ services:
     volumes:
       - redis-data:/data
 
-  # postgres:
-  #   image: bitnami/postgresql
-  #   restart: always
-  #   volumes:
-  #     - postgres-data:/bitnami
-  #   environment:
-  #     POSTGRESQL_USERNAME: edgecomputing
-  #     POSTGRESQL_PASSWORD: edgecomputing
-  #     POSTGRESQL_DATABASE: edgecomputing
+  postgres:
+    image: bitnami/postgresql
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/bitnami
+    environment:
+      POSTGRESQL_USERNAME: edgecomputing
+      POSTGRESQL_PASSWORD: edgecomputing
+      POSTGRESQL_DATABASE: edgecomputing
 
 volumes:
   redis-data:
-  # postgres-data:
+  postgres-data:

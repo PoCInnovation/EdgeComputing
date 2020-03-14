@@ -93,4 +93,18 @@ From left to right: `Dielectric`, `Lambertian` and `Metal`.
 You can find some further examples in the [example folder](raytracer/src/config).  
 You can also see the different creation states of the ray tracing algorithm in the [ray tracer folder](raytracer)
 
-![Random generated scene HD](https://cdn.discordapp.com/attachments/553271868115910656/573186183136411648/hd_render.png)
+## Start the project
+
+For simplicity of use we will use already provided [docker-compose](docker-compose.yml) config.
+```bash
+# Start all services
+docker-compose up
+```
+
+You can access the GraphQL playground at: http://127.0.0.1:5000/graphql
+![Server](.github/images/GraphQL.png)
+
+The web client is accessible at: http://127.0.0.1:3000/
+![Client](.github/images/Client.png)
+
+And the worker is accessible at: http://127.0.0.1:5000/

@@ -25,7 +25,7 @@ class HTTPServer {
 
   listen(port: number | string, hostname?: string) {
     this.server.listen(Number(port), hostname, () =>
-      console.log(`Listening on port http://${hostname ? hostname : '0.0.0.0'}:${port}/`)
+      console.log(`Listening on http://${hostname ? hostname : '0.0.0.0'}:${port}/`)
     );
   }
 };

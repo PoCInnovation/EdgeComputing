@@ -8,7 +8,7 @@ import App from './App';
 import { GlobalStyle, Theme } from './Configs/Theme';
 import * as serviceWorker from './serviceWorker';
 
-const client = new ApolloClient({ uri: '/graphql' });
+const client = new ApolloClient({ uri: 'http://127.0.0.1:5000/graphql' });
 
 ReactDOM.render(
   <ApolloProvider client={client}>
