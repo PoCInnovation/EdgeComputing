@@ -8,3 +8,5 @@ db.sqlite
 
 .idea/
 .vscode/
+
+.DS_Store/
