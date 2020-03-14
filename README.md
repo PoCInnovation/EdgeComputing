@@ -11,7 +11,6 @@ The architecture is quite simple. We have a main server which receive the asked 
 The server goal is to split the scene into different parts and ask each client to render a part of this scene which can be of a different size depending the capacity of the client,  
 as you can imagine a mobile won't render a part of the scene as fast as a desktop computer.
 
-
 Here is a schema with a main scene and how the scene is divided among clients.
 In reality it's a bit more complex than that but it's more easily understandable.
 
@@ -108,3 +107,11 @@ The web client is accessible at: http://127.0.0.1:3000/
 ![Client](.github/images/Client.png)
 
 And the worker is accessible at: http://127.0.0.1:5000/
+
+
+## Authors
+
+This project has been realized by POC R&D center members:
+- [Antoine Ordonez - shellbear](https://github.com/shellbear)
+- [Yann Sainson - byfuury](https://github.com/byfuury)
+- Victor Neuret - victorneuret](https://github.com/victorneuret)
