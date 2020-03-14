@@ -1,5 +1,13 @@
 ### Screen steps of ray tracing creation
 
+![Basic](https://cdn.discordapp.com/attachments/553271868115910656/568148055682187274/basic-scene.png)
+![Basic Sphere](https://cdn.discordapp.com/attachments/553271868115910656/568148121822035971/basic-sphere.png)
+![Floor](https://cdn.discordapp.com/attachments/553271868115910656/568148213756854285/floor.png)
+![Color](https://cdn.discordapp.com/attachments/553271868115910656/568148281516097536/color.png)
+![Dark](https://cdn.discordapp.com/attachments/553271868115910656/568148368874799136/dark.png)
+![Texture dark](https://cdn.discordapp.com/attachments/553271868115910656/568148438223421450/texture-dark.png)
+![Reflaction](https://cdn.discordapp.com/attachments/553271868115910656/568148547938025472/reflection.png)
+![Blur](https://cdn.discordapp.com/attachments/553271868115910656/568148587360419850/blur.png)
 ![Glass texture](https://cdn.discordapp.com/attachments/553271868115910656/573184093143957515/glass.png)
 ![First camera](https://cdn.discordapp.com/attachments/553271868115910656/573184227609411584/camera1.png)
 ![Moving camera](https://cdn.discordapp.com/attachments/553271868115910656/573184296148402188/clement_demission.png)

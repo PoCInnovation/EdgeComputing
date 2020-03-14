@@ -11,10 +11,18 @@ The architecture is quite simple. We have a main server which receive the asked 
 The server goal is to split the scene into different parts and ask each client to render a part of this scene which can be of a different size depending the capacity of the client,  
 as you can imagine a mobile won't render a part of the scene as fast as a desktop computer.
 
+
 Here is a schema with a main scene and how the scene is divided among clients.
 In reality it's a bit more complex than that but it's more easily understandable.
 
 ![server](.github/images/Server.png)
+
+
+## Ray Tracing
+
+To realise our project, we needed to use a 3d rendering algorithm. We decided to create our own ray tracing algorithm so that we can modify it tour our needs.
+
+A scene config file is used to generate the 3d scene. It describe the shapes, the size and the 3d position of each objects.
 
 ## Example
 
@@ -81,4 +89,7 @@ The full list is available [here](raytracer/src/Materials).
 ![Textures](.github/images/Textures.png)
 
 From left to right: `Dielectric`, `Lambertian` and `Metal`.
+
+You can find some further examples in the [example folder](raytracer/src/config).  
+You can also see the different creation states of the ray tracing algorithm in the [ray tracer folder](raytracer)
 
