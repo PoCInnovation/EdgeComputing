@@ -87,5 +87,6 @@ The full list is available [here](raytracer/src/Materials).
 
 From left to right: `Dielectric`, `Lambertian` and `Metal`.
 
-You can find some further examples in the [example folder](raytracer/src/config).
+You can find some further examples in the [example folder](raytracer/src/config).  
+You can also see the different creation states of the ray tracing algorithm in the [ray tracer folder](raytracer)
 
