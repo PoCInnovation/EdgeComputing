@@ -18,6 +18,12 @@ In reality it's a bit more complex than that but it's more easily understandable
 ![server](.github/images/Server.png)
 
 
+## Ray Tracing
+
+To realise our project, we needed to use a 3d rendering algorithm. We decided to create our own ray tracing algorithm so that we can modify it tour our needs.
+
+A scene config file is used to generate the 3d scene. It describe the shapes, the size and the 3d position of each objects.
+
 ## Example
 
 Scenes are json formatted and have to follow some requirements.
